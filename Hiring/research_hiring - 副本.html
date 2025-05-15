@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>感知与控制研究所</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --header-bg: #1e3f66;        /* 深蓝色背景 */
+            --text-dark: #000;           /* 黑色文字 */
+            --text-light: #fff;          /* 白色文字 */
+            --link-hover: #2c5282;       /* 链接悬停颜色 */
+            --content-width: 1200px;     /* 内容区域最大宽度 */
+            --left-margin: 100px;        /* 左边距 */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 添加背景图片容器 */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;  /* 添加右边界 */
+            width: 100vw;  /* 使用视窗宽度 */
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* 添加背景蒙版 */
+        .background-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);  /* 黑色半透明蒙版 */
+            z-index: 1;
+        }
+
+        .background-container img {
+            width: 100vw;  /* 使用视窗宽度 */
+            height: 100vh;
+            object-fit: cover;
+            object-position: center;
+            position: relative;
+            z-index: 0;
+        }
+
+        /* 容器样式 */
+        .page-container {
+            min-width: var(--content-width);  /* 添加最小宽度 */
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: auto;  /* 改为auto，允许在小屏幕时滚动 */
+        }
+
+        .institution-header {
+            min-width: var(--content-width);  /* 添加最小宽度 */
+            width: 100%;
+            margin: 0;
+            padding: 2px 0;
+            background: linear-gradient(90deg, var(--header-bg) 0%, #2c5282 100%);
+        }
+
+        .institution-header-content,
+        .header-content-inner,
+        .nav-container,
+        .main-card {
+            width: calc(100% - var(--left-margin) * 2);  /* 统一宽度 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin-left: 0;
+            margin-right: 0;
+            box-sizing: border-box;
+        }
+
+        .institution-header-content {
+            width: calc(100% - var(--left-margin) * 2);  /* 使用与其他内容相同的宽度计算 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;  /* 居中对齐 */
+            padding: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .institution-header-content span:first-child {
+            margin-left: 0;  /* 移除额外的左边距 */
+            padding-left: 0;
+        }
+
+        .institution-header-content span,
+        .logo-title,
+        nav ul li:first-child {
+            margin-right: 0;
+            padding-right: 0;
+        }
+
+        .institution-header a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0;  /* 移除所有边距 */
+            padding: 0;  /* 移除所有内边距 */
+        }
+
+        /* 修改标题区域容器样式 */
+        .header-content {
+            width: 100%;
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 20px 0;
+            position: relative;
+            background-color: transparent;
+        }
+
+        /* 修改标题内容容器样式 */
+        .header-content-inner {
+            width: calc(100% - var(--left-margin) * 2);
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 修改标题样式 */
+        .logo-title {
+            margin-left: 0;
+            text-align: left;
+        }
+
+        .logo-title h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        .logo-title p {
+            margin: 5px 0 0 0;
+            font-size: 24px;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            width: 100%;
+            padding: 8px 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 修改导航栏容器样式 */
+        nav .nav-container {
+            width: calc(100% - var(--left-margin) * 2);
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 修改导航列表样式 */
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 0;
+            margin-left: 0;  /* 使用与机构标题相同的左边距 */
+        }
+
+        /* 修改第一个导航项的样式 */
+        nav ul li:first-child {
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        /* 修改导航项样式 */
+        nav ul li a {
+            padding: 8px 0;  /* 减小内边距到最小 */
+            font-size: 13px;
+            display: block;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            background: transparent;
+        }
+
+        /* 保持活动状态和悬停状态的样式 */
+        nav ul li a:hover,
+        nav ul li a.active {
+            padding: 8px 3px;
+            color: var(--text-light);
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 5px solid var(--text-light);
+            padding-bottom: 6px;
+            font-weight: 700;  /* 保持加粗 */
+        }
+
+        /* 主要内容区域样式 */
+        main {
+            width: var(--content-width);
+            margin: 0 auto;
+            position: relative;
+            padding: 20px 0;
+            background-color: transparent;  /* 移除背景色 */
+        }
+
+        /* 幻灯片区域 */
+        .slider-container {
+            width: calc(100% - var(--left-margin) * 2);  /* 统一内容区域宽度 */
+            margin-left: 0;
+            margin-bottom: 30px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            height: 500px;  /* 增加高度 */
+            background: #f5f5f5;  /* 添加背景色 */
+        }
+
+        .slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;  /* 添加性布局 */
+            justify-content: center;  /* 水平居中 */
+            align-items: center;  /* 垂直居中 */
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 1;  /* 确保活的幻灯片在最上层 */
+        }
+
+        .slide img {
+            max-width: 100%;  /* 修改为最大宽度 */
+            max-height: 100%;  /* 修改为最大 */
+            object-fit: contain;  /* 修改为包含模式 */
+            border-radius: 8px;
+        }
+
+        /* 播按钮样式 */
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: #333;
+            transition: background 0.3s ease;
+        }
+
+        .slider-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        /* 轮播指示器样式 */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        /* 简介部分 */
+        .intro {
+            margin-left: var(--left-margin);  /* 统一使用相同的左边距 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);  /* 控制内容宽度 */
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            line-height: 1.8;
+            margin-top: 30px;
+        }
+
+        /* 研究方向部分 */
+        #research {
+            margin-left: 0;  /* 统一使用相同的左边距 */
+        }
+
+        #research h2 {
+            margin-top: 30px;
+            color: var(--text-dark);
+        }
+
+        #research ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #research li {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        #research li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 课题组动态部分 */
+        #news {
+            margin-left: 0;  /* 统一使用相同的左边距 */
+        }
+
+        #news h2 {
+            margin-top: 30px;
+            color: var(--text-dark);
+        }
+
+        .news-list {
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);  /* 控制内容宽度 */
+        }
+
+        .news-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .news-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-item .date {
+            color: #666;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .news-item p {
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .more-news {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--link-hover);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .more-news:hover {
+            background: #1e4b94;
+        }
+
+        /* 移除侧黑色背景 */
+        header {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        /* 确保所有内容区域都是透明背景 */
+        header, nav, main {
+            background: transparent;
+        }
+
+        /* 保持导航栏背色 */
+        nav {
+            background: white;
+        }
+
+        /* 添加分隔符样式 */
+        .institution-header-content span + span::before {
+            content: '|';
+            color: var(--text-light);  /* 白色 */
+            margin: 0 8px;  /* 两边留点空间 */
+            opacity: 0.8;   /* 稍微透明一点 */
+        }
+
+        /* 调整 span 的样式确保对齐 */
+        .institution-header-content span {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* 添加导航分隔符式 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0;  /* 移除分隔符的边距 */
+            padding: 0;  /* 移除内边距 */
+            opacity: 0.5;
+        }
+
+        /* 微航项的样式以适应分隔符 */
+        nav ul li {
+            display: flex;
+            align-items: center;
+            margin: 0;  /* 移除所有外 */
+            padding: 0 2px;  /* 只保留最小的左右内边距 */
+            white-space: nowrap;
+        }
+
+        /* 调整导航分隔符间距 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0;  /* 移除外边距 */
+            padding: 0;  /* 移除内边距 */
+            opacity: 0.5;
+        }
+
+        /* ���导航项容 */
+        nav ul {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 0;  /* 移除项目之间的间隙 */
+        }
+
+        /* 调整导航项样式 */
+        nav ul li {
+            display: flex;
+            align-items: center;
+            margin: 0;  /* 移除所有外边距 */
+            padding: 0 2px;  /* 只保留最小的左右内边距 */
+            white-space: nowrap;
+        }
+
+        /* 统一左对齐和间距 */
+        .institution-header-content span:first-child,
+        .logo-title,
+        nav ul li:first-child,
+        .slider-container,
+        .intro,
+        #research,
+        #news {
+            margin-left: 0;  /* 统一使用相同的左边距 */
+        }
+
+        /* 调整导航栏样式 */
+        nav {
+            width: 100%;
+            margin: 0;
+            padding: 8px 0;
+            /* background: rgba(13, 85, 119, 0.95);  微调整透明度 */
+            background: transparent;
+        }
+
+        /* 调整导航项间距 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0 8px;  /* 统一分隔符间距 */
+            opacity: 0.5;
+        }
+
+        nav ul li a {
+            padding: 8px 12px;  /* 统一内边距 */
+            font-size: 14px;
+            background: transparent;  /* 移除单个项目的背景 */
+        }
+
+        /* 调整内容区域宽度 */
+        .slider-container,
+        .intro,
+        .news-list {
+            width: calc(100% - var(--left-margin) * 2);  /* 统一内容区域宽度 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+        }
+
+        /* 统一标题样式 */
+        .logo-title h1,
+        #research h2,
+        #news h2 {
+            font-size: 28px;  /* 统一标题大小 */
+            margin-bottom: 20px;  /* 统一下边距 */
+        }
+
+        /* 统一卡片样式 */
+        .intro,
+        #research li,
+        .news-item {
+            background: rgba(255, 255, 255, 0.95);  /* 统一背景透明度 */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;  /*  */
+        }
+
+        /* 添加主卡片容器样式 */
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 30px;
+            width: calc(100% - var(--left-margin) * 2);
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin-left: var(--left-margin);
+        }
+
+        /* 调整内部内容的样式 */
+        .main-card .slider-container {
+            margin-left: 0;  /* 移除边距，因为已经被卡片包含 */
+            width: 100%;     /* 占满卡片宽度 */
+            max-width: 100%;
+        }
+
+        .main-card .intro,
+        .main-card #research,
+        .main-card #news {
+            margin-left: 0;  /* 移除左边距 */
+            max-width: 100%;
+            background: transparent;  /* 移除内部卡片的背景色 */
+            box-shadow: none;        /* 移除内部卡片的阴影 */
+        }
+
+        /* 调整内部分隔样式 */
+        .main-card section {
+            border-bottom: none;  /* 移除section的下边框 */
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-card section:last-child {
+            border-bottom: none;  /* 最后一个部分不需要分隔线 */
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        /* 确保页面容器不影响对齐 */
+        .page-container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 确保页面容器不影响标题区域 */
+        .page-container {
+            position: relative;
+            overflow-x: hidden;  /* 防止水平滚动 */
+        }
+
+        /* 研究方向样式 */
+        .research-intro, .research-achievements {
+            margin-bottom: 40px;
+        }
+
+        .research-intro h3, .research-achievements h3 {
+            color: #1e3f66;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3f66;
+        }
+
+        .research-content h4 {
+            color: #2c5282;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .research-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .research-content ol {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .research-content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        /* 研究成果样式 */
+        .achievement-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .achievement-item h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .achievement-item p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .project-link {
+            color: #2c5282;
+            font-weight: 500;
+        }
+
+        .project-link a {
+            color: #2c5282;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .project-link a:hover {
+            color: #1a365d;
+            text-decoration: underline;
+        }
+
+        /* 主标题样式 */
+        .main-card > h2 {
+            color: #1a365d;
+            font-size: 28px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #1a365d;
+        }
+
+        /* 添加左侧导航样式 */
+        .main-card {
+            display: flex;
+            gap: 40px;
+        }
+
+        .sidebar {
+            width: 200px;
+            flex-shrink: 0;
+            padding-top: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            color: #666;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+            padding: 8px 15px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            color: #1e3f66;
+            border-left-color: #1e3f66;
+            background-color: rgba(30, 63, 102, 0.05);
+        }
+
+        /* 右侧内容区域样式 */
+        .content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* 调整主卡片内边距 */
+        .main-card {
+            padding: 40px;
+        }
+
+        /* 调整标题样式 */
+        .content > h2 {
+            margin-top: 0;
+        }
+
+        /* 确保内容区域不会溢出 */
+        .content {
+            overflow-x: hidden;
+        }
+
+        /* 调整研究向和成果部分的间距 */
+        .research-intro,
+        .research-achievements {
+            margin-bottom: 50px;
+        }
+
+        /* 调整列表样式 */
+        .research-content ol {
+            padding-left: 20px;
+        }
+
+        .research-content li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* 招聘部分样式 */
+        .hiring-section {
+            margin-bottom: 50px;
+        }
+
+        .hiring-section h3 {
+            color: #1e3f66;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3f66;
+        }
+
+        .requirements h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin: 25px 0 15px 0;
+        }
+
+        .requirements ol {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .requirements li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .apply-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .apply-info h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin: 20px 0 15px 0;
+        }
+
+        .apply-info p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .apply-info a {
+            color: #2c5282;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .apply-info a:hover {
+            color: #1a365d;
+            text-decoration: underline;
+        }
+
+        /* 修改左侧导航样式 */
+        .sidebar {
+            width: 200px;
+            flex-shrink: 0;
+            padding-top: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: sticky;
+            top: 20px;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar a {
+            color: #666;
+            text-decoration: none;
+            font-size: 16px;
+            display: block;
+            padding: 8px 15px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            color: #1e3f66;
+            border-left-color: #1e3f66;
+            background-color: rgba(30, 63, 102, 0.05);
+        }
+
+        /* 修改主标题样式 */
+        .content > h2 {
+            color: #333;
+            font-size: 24px;
+            margin: 0 0 30px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+        }
+
+        /* 修改各分标题样式 */
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e3f66;  /* 深蓝色文 */
+            position: relative;
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 0 0 25px 0;
+            background: #e6e6e6;  /* 纯灰色背景 */
+            border-radius: 4px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #1e3f66;  /* 添加蓝色底边 */
+        }
+
+        /* 修改标题后的虚线装饰 */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: calc(100% + 30px);
+            top: 50%;
+            transform: translateY(-50%);
+            height: 2px;
+            width: calc(100vw - 100% - 80px);  /* 整虚线长度 */
+            background-image: repeating-linear-gradient(
+                to right,
+                #2c5282 0px,  /* 修改为蓝色 #2c5282 */
+                #2c5282 6px,  /* 修改为蓝色 #2c5282 */
+                transparent 6px,
+                transparent 12px
+            );
+            opacity: 1;
+        }
+
+        /* 移除虚线末尾的圆点 */
+        .section-title-container::after {
+            display: none;  /* 隐藏圆点 */
+        }
+
+        /* 调整标题容器样式 */
+        .section-title-container {
+            position: relative;
+            margin-bottom: 20px;
+            overflow: visible;
+            width: 100%;
+            border-bottom: none;  /* 移除下边框 */
+            padding-bottom: 20px;
+        }
+
+        /* 修改大模型数据科学标题样式 */
+        .research-heading {
+            display: flex;
+            align-items: center;
+            margin: 35px 0 20px 0;
+        }
+
+        /* 修改图标样式 */
+        .research-heading img {
+            width: 36px;
+            height: 36px;
+            margin-right: 15px;
+        }
+
+        /* 修改标题文字样式 */
+        .research-heading h4 {
+            color: #000;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* 修改内容区域样式 */
+        .research-content {
+            padding: 0;
+        }
+
+        .research-content p {
+            color: #333;
+            line-height: 1.6;  /* 减小行高 */
+            margin: 0 0 15px 0;  /* 减段落间距 */
+            font-size: 16px;
+        }
+
+        /* 修改列表样式 */
+        .content-list {
+            list-style: decimal;
+            padding-left: 25px;
+            margin: 0;
+        }
+
+        .content-list li {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            padding-left: 5px;
+            font-size: 16px;
+        }
+
+        /* 移除之前的圆点样式 */
+        .content-list li::before {
+            display: none;
+        }
+
+        /* 修改分隔线样式 */
+        .content-divider {
+            display: none;  /* 隐藏所有分隔线 */
+        }
+
+        /* 修改主卡片内边距 */
+        .main-card {
+            padding: 30px;  /* 减小内边距 */
+        }
+
+        /* 调整section间距 */
+        .content-section {
+            margin-bottom: 40px;  /* 保持适当的间距 */
+        }
+
+        /* 确保标题容器宽度与主标题一致 */
+        .section-title-container {
+            position: relative;
+            margin-bottom: 20px;
+            overflow: visible;
+            width: 100%;  /* 使容器宽度与主标题一致 */
+            border-bottom: none;  /* 移除下边框 */
+            padding-bottom: 20px;  /* 增加下方内边距 */
+        }
+
+        /* 修改标题样式 */
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e3f66;
+            position: relative;
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 0;
+            background: #e6e6e6;
+            border-radius: 4px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #1e3f66;  /* 添加蓝色底边 */
+        }
+
+        /* 修改二级标题样式 */
+        .research-content h4,
+        .requirements h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin: 30px 0 15px 0;  /* 统一二级标题的上下间距 */
+            font-weight: bold;
+        }
+
+        /* 修改段落样式 */
+        .research-content p,
+        .requirements p {
+            margin: 0 0 15px 0;  /* 统一段落间距 */
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* 修改列表样式 */
+        .content-list,
+        .requirements ol {
+            list-style: decimal;
+            padding-left: 25px;
+            margin: 0 0 30px 0;  /* 统一列表与下一个元素的间距 */
+        }
+
+        .content-list li,
+        .requirements li {
+            margin-bottom: 12px;  /* 统一列表项间距 */
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* 最后一个元素移除底部边距 */
+        .content-section:last-child,
+        .content-list:last-child,
+        .requirements ol:last-child,
+        .content-list li:last-child,
+        .requirements li:last-child,
+        .research-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 调整主标题样式 */
+        .content > h2 {
+            margin: 0 0 40px 0;  /* 主标题与内容的间距 */
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+        }
+
+        /* 修改申请式部分的样式 */
+        #apply h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin: 0 0 15px 0;
+        }
+
+        #apply p {
+            margin: 0;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        #apply a {
+            color: #2c5282;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #apply a:hover {
+            color: #1a365d;
+            text-decoration: underline;
+        }
+
+        /* 移除之前的背景和边框样式 */
+        #apply .requirements {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        /* 招聘岗位、待遇及应聘条件部分 */
+        #requirements {
+            margin-bottom: 40px;
+        }
+
+        #requirements h3 {
+            color: #1e3f66;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3f66;
+        }
+
+        #requirements h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin: 25px 0 15px 0;
+        }
+
+        #requirements ol {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        #requirements li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        /* 应聘与联系方式部分 */
+        #contact {
+            margin-bottom: 40px;
+        }
+
+        #contact h3 {
+            color: #1e3f66;
+            font-size: 24px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3f66;
+        }
+
+        #contact h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin: 25px 0 15px 0;
+        }
+
+        .contact-info {
+            margin-bottom: 20px;
+        }
+
+        .contact-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .contact-table th,
+        .contact-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .contact-table th {
+            background-color: #f8f9fa;
+        }
+
+        /* 添加新的样式 */
+        /* 联系方式表格样式 */
+        .contact-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .contact-table th,
+        .contact-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #e2e8f0;
+        }
+
+        .contact-table th {
+            background-color: #f8f9fa;
+            color: #2c5282;
+            font-weight: bold;
+        }
+
+        .contact-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* 联系信息样式 */
+        .contact-info {
+            margin-top: 15px;
+        }
+
+        /* 调整列表样式 */
+        .content-list {
+            padding-left: 25px;
+            margin-bottom: 30px;
+        }
+
+        .content-list li {
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        /* 调整标题样式 */
+        .content-section h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin: 25px 0 15px 0;
+        }
+
+        /* 添加表格样式 */
+        .position-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 30px 0;
+            background: #ffffff;
+        }
+
+        /* 表格单元格基本样式 */
+        .position-table th,
+        .position-table td {
+            border: 1px solid #f0f0f0;  /* 更浅的边框颜色 */
+            padding: 12px 15px;
+            text-align: left;
+            line-height: 1.6;
+            font-size: 14px;
+            color: #333;
+            font-weight: normal;
+        }
+
+        /* 表头样式 */
+        .position-table th {
+            background-color: #fafafa;  /* 非常浅的灰色背景 */
+            font-weight: normal;
+            color: #333;
+        }
+
+        /* 第一列样式 */
+        .position-table .position-type {
+            color: #333;
+            font-weight: normal;
+            background-color: #fafafa;  /* 与表头相同的背景色 */
+            vertical-align: middle;  /* 垂直居中 */
+        }
+
+        /* 移除悬停效果 */
+        .position-table tr:hover {
+            background-color: transparent;
+        }
+
+        /* 调整表格容器样式 */
+        .job-positions {
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        /* 确保表格边框显示完整 */
+        .position-table {
+            border: 1px solid #f0f0f0;
+        }
+
+        /* 修改联系方式表格样式 */
+        .contact-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .contact-table th,
+        .contact-table td {
+            border: 1px solid #f0f0f0;
+            padding: 12px 15px;
+            text-align: left;
+            line-height: 1.6;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .contact-table th {
+            background-color: #fafafa;
+            font-weight: normal;
+        }
+
+        .contact-table td {
+            background-color: #ffffff;
+        }
+
+        /* 调整表格容器样式 */
+        .contact-info {
+            margin-top: 15px;
+            overflow-x: auto;  /* 在小屏幕上可以横向滚动 */
+        }
+
+        /* 添加招聘学科领域样式 */
+        .disciplines-content {
+            margin: 0;  /* 移除额外的外边距 */
+        }
+
+        .disciplines-content h4 {
+            color: #2c5282;
+            font-size: 18px;
+            margin: 0 0 15px 0;
+        }
+
+        .disciplines-content .content-list {
+            list-style: decimal;
+            padding-left: 25px;
+            margin: 0 0 20px 0;
+        }
+
+        .disciplines-content .content-list li {
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            padding-left: 5px;
+            font-size: 14px;
+        }
+
+        .disciplines-content .note {
+            color: #666;
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 15px;
+        }
+
+        /* 确保所有section标题样式一致 */
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e3f66;
+            position: relative;
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 0;
+            background: #e6e6e6;
+            border-radius: 4px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 3px solid #1e3f66;  /* 添加蓝色底边 */
+        }
+
+        /* 统一section间距 */
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <img src="../images/Body_Background.img" alt="背景图片">
+    </div>
+    
+    <div class="page-container">
+        <header>
+            <div class="institution-header">
+                <div class="institution-header-content">
+                    <span><a href="https://www.zjut.edu.cn/" target="_blank">浙江工业大学</a></span>
+                    <span><a href="https://ie.zjut.edu.cn/" target="_blank">信息工程学院</a></span>
+                </div>
+            </div>
+            <div class="header-content">
+                <div class="header-content-inner">
+                    <div class="logo-title">
+                        <h1>感知与控制研究所</h1>
+                        <p>Institute of Perception and Control</p>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <div class="nav-container">
+                    <ul>
+                        <li><a href="../index.html">HOME</a></li>
+                        <li><a href="../publications.html">PUBLICATIONS</a></li>
+                        <li><a href="../members.html">MEMBERS</a></li>
+                        <li><a href="../services.html">SERVICES</a></li>
+                        <li><a href="../news.html">NEWS</a></li>
+                        <li><a href="../photos.html">PHOTOS</a></li>
+                        <li><a href="../media.html">MEDIA</a></li>
+                        <li><a href="../lab-only.html">LAB ONLY</a></li>
+                        <li><a href="../contact.html" class="active">CONTACT</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <main>
+        <div class="main-card">
+            <!-- 修改左侧导航 -->
+            <div class="sidebar">
+                <ul>
+                    <li><a href="#disciplines">招聘学科领域</a></li>
+                    <li><a href="#requirements">招聘岗位及条件</a></li>
+                    <li><a href="#contact">应聘与联系方式</a></li>
+                </ul>
+            </div>
+
+            <!-- 右侧内容区域 -->
+            <div class="content">
+                <!-- 招聘学科领域部分 -->
+                <section id="disciplines" class="content-section">
+                    <div class="section-title-container">
+                        <h3 class="section-title">招聘学科领域</h3>
+                    </div>
+                    <div class="disciplines-content">
+                        <h4>招聘学科：</h4>
+                        <ol class="content-list">
+                            <li>化学工程与技术*、化学、海洋科学、食品科学与工程</li>
+                            <li>材料科学与工程*、生物工程、环境科学与工程*、药学*、中药学</li>
+                            <li>机械工程*、动力工程及工程热物理*、控制科学与工程*</li>
+                            <li>信息与通信工程、计算机科学与技术*、软件工程</li>
+                            <li>土木工程*、城乡规划学、建筑学</li>
+                            <li>工商管理*、应用经济学*、管理科学与工程</li>
+                            <li>数学*、物理学*、光学工程</li>
+                            <li>中国语言文学、新闻传播学、设计学</li>
+                            <li>教育学、法学、公共管理</li>
+                            <li>马克思主义理论、外国语言文学等学科或相关领域</li>
+                        </ol>
+                        <p class="note">（标*的学科具有博士后流动站）</p>
+                    </div>
+                </section>
+
+                <!-- 招聘岗位、待遇及应聘条件部分 -->
+                <section id="requirements" class="content-section">
+                    <div class="section-title-container">
+                        <h3 class="section-title">招聘岗位、待遇及应聘条件</h3>
+                    </div>
+                    
+                    <!-- 添加招聘岗位表格 -->
+                    <div class="job-positions">
+                        <table class="position-table">
+                            <tr>
+                                <th width="20%">招聘岗位</th>
+                                <th>应聘条件</th>
+                            </tr>
+                            <tr>
+                                <td rowspan="3" class="position-type">领军人才</td>
+                                <td>A类：达到国家级顶尖人才相当水平</td>
+                            </tr>
+                            <tr>
+                                <td>B类：达到国家级领军人才相当水平</td>
+                            </tr>
+                            <tr>
+                                <td>C类：理工类≤45周岁，社科类≤50周岁；达到国家级青年人才相当水平</td>
+                            </tr>
+                            <tr>
+                                <td class="position-type">拔尖人才</td>
+                                <td>D类：理工类≤45周岁，社科类≤50周岁；达到省级拔尖人才相当水平</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4" class="position-type">青年英才</td>
+                                <td>运河青年学者：35周岁（社科类40周岁）以下；具有突出的学术发展潜力</td>
+                            </tr>
+                            <tr>
+                                <td>特聘研究员：35周岁（社科类40周岁）以下；具有正高级教师相当水平</td>
+                            </tr>
+                            <tr>
+                                <td>特聘副研究员：35周岁（社科类40周岁）以下；具有副高级教师相当水平</td>
+                            </tr>
+                            <tr>
+                                <td>青年教师：35岁以下</td>
+                            </tr>
+                            <tr>
+                                <td class="position-type">博士后</td>
+                                <td>35周岁以下</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <h4>应聘基本要求：</h4>
+                    <ol class="content-list">
+                        <li>坚持正确政治方向，符合"立德树人"的根本要求，牢固树立"四个意识"，坚定"四个自信"，具有爱国奉献精神；</li>
+                        <li>一般应具有博士学位，热爱教育事业，具有良好的科学精神、职业德、严谨的学风和团队合作意识，具有较强的教学科研和社会服务能力，身心健康。</li>
+                    </ol>
+
+                    <h4>有关待遇说明：</h4>
+                    <ol class="content-list">
+                        <li>年薪是指全年税前总收入（包含单位配套的社会保险部分），不包含学院、学科及团队提供的人才补贴；在校期间科研成果奖励按照学校政策另行发放；</li>
+                        <li>购房安置费按学校政策发放；</li>
+                        <li>教师子女可入读浙江工业大学幼儿园（甲级幼儿园），义务教育阶段入读杭州市公办学校；</li>
+                        <li>学校按照国家和省市有关政策，协助解决好配偶工作、子女入学、人才居住证和落户等事项；</li>
+                        <li>根据相关政策，教师可申请周转房（市区优质房源）、青年教师公寓（校内）和莫干山校区人才公寓（免租金）。</li>
+                        <li>学校建立高层次创新型人才职称评审"直通车"，对符合条件的高层次、急需紧缺人才，可不受资历、职年限限制直接申报相应职称。</li>
+                    </ol>
+                </section>
+
+                <!-- 应聘与联系方式部分 -->
+                <section id="contact" class="content-section">
+                    <div class="section-title-container">
+                        <h3 class="section-title">应聘与联系方式</h3>
+                    </div>
+                    <div class="contact-info">
+                        <table class="contact-table">
+                            <tr>
+                                <th>招聘单位</th>
+                                <th>招聘岗位</th>
+                                <th>应聘条件</th>
+                                <th>联系方式</th>
+                            </tr>
+                            <tr>
+                                <td>信息工程学院</td>
+                                <td>教学科研岗</td>
+                                <td>研究生/博士</td>
+                                <td>余老师，电话：0571-85290570，Email: yuling@zjut.edu.cn</td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2024 感知与控制研究所 版权所有</p>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            const totalSlides = slides.length;
+
+            function showSlide(n) {
+                // 处理界情况
+                if (n >= totalSlides) {
+                    currentSlide = 0;
+                } else if (n < 0) {
+                    currentSlide = totalSlides - 1;
+                } else {
+                    currentSlide = n;
+                }
+
+                // 隐藏所有幻灯片
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                    slide.style.display = 'none';
+                });
+                dots.forEach(dot => dot.classList.remove('active'));
+
+                // 显示当前幻灯片
+                slides[currentSlide].style.display = 'flex';
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+
+            // 自动轮播
+            let slideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+
+            // 按钮点击事件
+            document.querySelector('.prev').addEventListener('click', () => {
+                clearInterval(slideInterval);  // 清除自动轮播
+                showSlide(currentSlide - 1);
+                // 重新始自动轮
+                slideInterval = setInterval(() => {
+                    showSlide(currentSlide + 1);
+                }, 5000);
+            });
+
+            document.querySelector('.next').addEventListener('click', () => {
+                clearInterval(slideInterval);  // 清除自动轮播
+                showSlide(currentSlide + 1);
+                // 重开始自动轮播
+                slideInterval = setInterval(() => {
+                    showSlide(currentSlide + 1);
+                }, 5000);
+            });
+
+            // 指示器点击事
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    clearInterval(slideInterval);  // 清除自轮播
+                    showSlide(index);
+                    // 新始自动轮
+                    slideInterval = setInterval(() => {
+                        showSlide(currentSlide + 1);
+                    }, 5000);
+                });
+            });
+
+            // 初始化显示第一张
+            showSlide(0);
+        });
+
+        // 添加滚动监听，更新左侧导航激活状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.sidebar a');
+
+            function updateActiveLink() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveLink);
+        });
+    </script>
+</body>
+</html> 

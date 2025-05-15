@@ -1,0 +1,29 @@
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器文件
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# 不需要的WordPress核心文件（如果不需要WordPress）
+wp-admin/
+wp-includes/
+wp-content/plugins/
+wp-content/upgrade/
+wp-content/uploads/
+wp-content/backup-db/
+wp-content/backups/
+wp-content/cache/
+wp-content/upgrade/
+
+# WordPress配置文件（如果含有敏感信息）
+wp-config.php
+
+# 其他临时文件
+*.log
+*.bak
+*.tmp
+*.swp 

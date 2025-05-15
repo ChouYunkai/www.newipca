@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>感知与控制研究所</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --header-bg: #1e3f66;        /* 深蓝色背景 */
+            --text-dark: #000;           /* 黑色文字 */
+            --text-light: #fff;          /* 白色文字 */
+            --link-hover: #2c5282;       /* 链接悬停颜色 */
+            --content-width: 1200px;     /* 内容区域最大宽度 */
+            --left-margin: 100px;        /* 左边距 */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 添加背景图片容器 */
+     /* ... 原有样式 ... */
+
+/* 背景容器样式 */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.background-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.background-container img {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    object-fit: cover;
+    object-position: center;
+    position: relative;
+    z-index: 0;
+}
+
+/* 页脚样式 */
+footer {
+    width: 100%;
+    min-width: var(--content-width);
+    margin: 0;
+    padding: 20px 0;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    position: relative;
+    margin-top: 40px;
+    overflow-x: auto;
+}
+
+.footer-content {
+    width: calc(100% - var(--left-margin) * 2);
+    max-width: calc(var(--content-width) - var(--left-margin) * 2);
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+/* ... 原有样式 ... */
+        /* 容器样式 */
+        .page-container {
+            min-width: var(--content-width);  /* 添加最小宽度 */
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: auto;  /* 改为auto，允许在小屏幕时滚动 */
+        }
+
+        .institution-header {
+            min-width: var(--content-width);  /* 添加最小宽度 */
+            width: 100%;
+            margin: 0;
+            padding: 2px 0;
+            background: linear-gradient(90deg, var(--header-bg) 0%, #2c5282 100%);
+        }
+
+        .institution-header-content,
+        .header-content-inner,
+        .nav-container,
+        .main-card {
+            width: calc(100% - var(--left-margin) * 2);  /* 统一宽度 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin-left: 0;
+            margin-right: 0;
+            box-sizing: border-box;
+        }
+
+        .institution-header-content {
+            width: calc(100% - var(--left-margin) * 2);  /* 使用与其他内容相同的宽度计算 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;  /* 居中对齐 */
+            padding: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .institution-header-content span:first-child {
+            margin-left: 0;  /* 移除额外的左边距 */
+            padding-left: 0;
+        }
+
+        .institution-header-content span,
+        .logo-title,
+        nav ul li:first-child {
+            margin-right: 0;
+            padding-right: 0;
+        }
+
+        .institution-header a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0;  /* 移除所有边距 */
+            padding: 0;  /* 移除所有内边距 */
+        }
+
+        /* 修改标题区域容器样式 */
+        .header-content {
+            width: 100%;
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 20px 0;
+            position: relative;
+            background-color: transparent;
+        }
+
+        /* 修改式 */
+        .header-content-inner {
+            width: calc(100% - var(--left-margin) * 2);
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 修改标题样式 */
+        .logo-title {
+            margin-left: 0;
+            text-align: left;
+        }
+
+        .logo-title h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        .logo-title p {
+            margin: 5px 0 0 0;
+            font-size: 24px;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            width: 100%;
+            padding: 8px 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 修改导航栏容器样式 */
+        nav .nav-container {
+            width: calc(100% - var(--left-margin) * 2);
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 修改导航列表样式 */
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 0;
+            margin-left: 0;  /* 使用与机构标题相同的左边距 */
+        }
+
+        /* 修改第一个导航项的样式 */
+        nav ul li:first-child {
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        /* 修改导航项样式 */
+        nav ul li a {
+            padding: 8px 0;  /* 减小内边距到最小 */
+            font-size: 13px;
+            display: block;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            background: transparent;
+        }
+
+        /* 保持活动状态和悬停状态的样式 */
+        nav ul li a:hover,
+        nav ul li a.active {
+            padding: 8px 3px;
+            color: var(--text-light);
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 5px solid var(--text-light);
+            padding-bottom: 6px;
+            font-weight: 700;  /* 保持加粗 */
+        }
+
+        /* 主要内样式 */
+        main {
+            width: var(--content-width);
+            margin: 0 auto;
+            position: relative;
+            padding: 20px 0;
+            background-color: transparent;  /* 移除背景色 */
+        }
+
+        /* 幻灯片区域 */
+        .slider-container {
+            width: calc(100% - var(--left-margin) * 2);  /* 统一内容区域宽度 */
+            margin-left: 0;
+            margin-bottom: 30px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            height: 500px;  /* 增加高度 */
+            background: #f5f5f5;  /* 添加背景色 */
+        }
+
+        .slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;  /* 添加性布局 */
+            justify-content: center;  /* 水平居中 */
+            align-items: center;  /* 垂直居中 */
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 1;  /* 确保活动的幻灯片在最上层 */
+        }
+
+        .slide img {
+            max-width: 100%;  /* 最 */
+            max-height: 100%;  /* 修改为最大 */
+            object-fit: contain;  /* 修改为包含模式 */
+            border-radius: 8px;
+        }
+
+        /* 播钮式 */
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: #333;
+            transition: background 0.3s ease;
+        }
+
+        .slider-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        /* 轮播指示器样式 */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        /* 简介部分 */
+        .intro {
+            margin-left: var(--left-margin);  /* 统一使用相同的左边距 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);  /* 控制内容宽 */
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            line-height: 1.8;
+            margin-top: 30px;
+        }
+
+        /* 研究方向部分 */
+        #research {
+            margin-left: 0;  /* 统一使用相同的左距 */
+        }
+
+        #research h2 {
+            margin-top: 30px;
+            color: var(--text-dark);
+        }
+
+        #research ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #research li {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        #research li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 课题组动态部分 */
+        #news {
+            margin-left: 0;  /* 统一使用相同的左边距 */
+        }
+
+        #news h2 {
+            margin-top: 30px;
+            color: var(--text-dark);
+        }
+
+        .news-list {
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);  /* 控制内容宽度 */
+        }
+
+        .news-item {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .news-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #f8f9fa;
+        }
+
+        .news-item .date {
+            color: #666;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .news-item p {
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .more-news {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--link-hover);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .more-news:hover {
+            background: #1e4b94;
+        }
+
+        /* 移两侧黑色景 */
+        header {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        /* 确保所有内容区域都是透明背景 */
+        header, nav, main {
+            background: transparent;
+        }
+
+        /* 保持导航栏背景色 */
+        nav {
+            background: white;
+        }
+
+        /* 添加分隔符样式 */
+        .institution-header-content span + span::before {
+            content: '|';
+            color: var(--text-light);  /* 白色 */
+            margin: 0 8px;  /* 两留点空间 */
+            opacity: 0.8;   /* 稍微透明一点 */
+        }
+
+        /* 调整 span 的样式确保对齐 */
+        .institution-header-content span {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* 添加导航分隔符式 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0;  /* 移除分隔符的边距 */
+            padding: 0;  /* 移除内边距 */
+            opacity: 0.5;
+        }
+
+        /* 微航项的样式以适应分隔符 */
+        nav ul li {
+            display: flex;
+            align-items: center;
+            margin: 0;  /* 移除所有外边距 */
+            padding: 0 2px;  /* 只保留最小的左右内边距 */
+            white-space: nowrap;
+        }
+
+        /* 调整导航分隔符间距 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0;  /* 移除边距 */
+            padding: 0;  /* 移除内边距 */
+            opacity: 0.5;
+        }
+
+        /* 调整导航项容器样式 */
+        nav ul {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 0;  /* 移除项目之间的间隙 */
+        }
+
+        /* 调整导航项样式 */
+        nav ul li {
+            display: flex;
+            align-items: center;
+            margin: 0;  /* 移除所有外边距 */
+            padding: 0 2px;  /* 只保留最小的左右内边距 */
+            white-space: nowrap;
+        }
+
+        /* 统一左对齐和间距 */
+        .institution-header-content span:first-child,
+        .logo-title,
+        nav ul li:first-child,
+        .slider-container,
+        .intro,
+        #research,
+        #news {
+            margin-left: 0;  /* 统一使用相同的左边距 */
+        }
+
+        /* 整导航栏样式 */
+        nav {
+            width: 100%;
+            margin: 0;
+            padding: 8px 0;
+            /* background: rgba(13, 85, 119, 0.95);  调整透 */
+            background: transparent;
+        }
+
+        /* 调整导航项间距 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0 8px;  /* 统一分隔符间距 */
+            opacity: 0.5;
+        }
+
+        nav ul li a {
+            padding: 8px 12px;  /* 统一内边距 */
+            font-size: 14px;
+            background: transparent;  /* 移除单个项目的背景 */
+        }
+
+        /* 调整内容区域宽度 */
+        .slider-container,
+        .intro,
+        .news-list {
+            width: calc(100% - var(--left-margin) * 2);  /* 统内容区域宽 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+        }
+
+        /* 统一标题样式 */
+        .logo-title h1,
+        #research h2,
+        #news h2 {
+            font-size: 28px;  /* 一题大 */
+            margin-bottom: 20px;  /* 一边 */
+        }
+
+        /* 一卡片样 */
+        .intro,
+        #research li,
+        .news-item {
+            background: rgba(255, 255, 255, 0.95);  /* 统一背景透明度 */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;  /* 统一下边距 */
+        }
+
+        /* 添加主卡片容器样式 */
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 30px;
+            width: calc(100% - 100px);  /* 修改宽度计算方式 */
+            max-width: 1200px;          /* 增加最大宽度 */
+            margin-left: 50px;          /* 调整左边距 */
+            margin-right: 50px;         /* 添加右边距 */
+        }
+
+        /* 修改内部分隔样式 - 删除下划线 */
+        .main-card section {
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-card section:last-child {
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        /* 调整内部内容的样式 */
+        .main-card .slider-container {
+            margin-left: 0;  /* 移除边距，因为已经被卡片包含 */
+            width: 100%;     /* 占满卡片宽度 */
+            max-width: 100%;
+        }
+
+        .main-card .intro,
+        .main-card #research,
+        .main-card #news {
+            margin-left: 0;  /* 移除左边距 */
+            max-width: 100%;
+            background: transparent;  /* 移内部卡片的背景色 */
+            box-shadow: none;        /* 移除内部卡片的阴影 */
+        }
+
+        /* 确保页面容器不影响对齐 */
+        .page-container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 确保页面容器不影响标题区域 */
+        .page-container {
+            position: relative;
+            overflow-x: hidden;  /* 止水平滚动 */
+        }
+
+        /* 调整新闻列表宽度 */
+        .news-list {
+            width: 100%;               /* 使用完整度 */
+            max-width: 100%;           /* 最大宽度与父容器一致 */
+        }
+
+        /* 调整新闻项样式 */
+        .news-item {
+            margin-bottom: 20px;
+            padding: 20px;             /* 增加内边距 */
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            width: 100%;              /* 确保宽度填满父容器 */
+            box-sizing: border-box;   /* 包含padding在内的盒模型 */
+        }
+
+        /* 调整标题样式 */
+        .main-card h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            color: var(--text-dark);
+            display: inline-block;
+            border-bottom: 4px solid var(--header-bg);
+        }
+
+        /* 添加题容器样式 */
+        .title-container {
+            margin-bottom: 8px;
+            width: 100%;
+        }
+
+        /* 分页控制器样式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .page-btn {
+            padding: 8px 16px;
+            background: var(--header-bg);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .page-btn:hover {
+            background: var(--link-hover);
+        }
+
+        .page-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+        }
+
+        .page-number {
+            padding: 8px 12px;
+            border: 1px solid var(--header-bg);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-number.active {
+            background: var(--header-bg);
+            color: white;
+        }
+
+        .page-number:hover:not(.active) {
+            background: #f0f0f0;
+        }
+
+        /* 闻内容域样式 */
+        .news-content {
+            margin-top: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* 新闻列表样式 */
+        .news-list {
+            margin-bottom: 30px;  /* 增加与分页控制器的间距 */
+        }
+
+        /* 分页控制器样式调整 */
+        .pagination {
+            margin-top: 20px;  /* 与新闻列表保持间距 */
+            padding-top: 20px;  /* 内部上边距 */
+        }
+
+        /* 片标题样式 */
+        .main-card h2 {
+            margin-bottom: 30px;  /* 增加标题下方间距 */
+            padding-bottom: 15px;  /* 增加内部下边距 */
+        }
+
+        /* 页码导航样式 */
+        .page-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding-top: 20px;
+        }
+
+        .page-number {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--header-bg);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--header-bg);
+        }
+
+        .page-number:hover {
+            background-color: #f0f0f0;
+        }
+
+        .page-number.active {
+            background-color: var(--header-bg);
+            color: white;
+            border-color: var(--header-bg);
+        }
+
+        /* 幻灯片容器样式 */
+        .slider-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 幻灯片标题样 */
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+        }
+
+        .slide-caption h3 {
+            margin: 0;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .slide-caption p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* 导航按钮样式 */
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .slider-button:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        /* 指示器样式 */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        /* 修改置顶新闻布局样式 */
+        .top-news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);  /* 3列布局 */
+            grid-template-rows: auto auto;          /* 2行自适应高度 */
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .top-news-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 400px;                          /* 固定高度 */
+            background: #fff;
+        }
+
+        .top-news-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;                    /* 改为contain显示完整图片 */
+            display: block;
+            transition: transform 0.3s ease;
+            background: #f8f9fa;                    /* 添加背景色 */
+            padding: 10px;                          /* 添加内边距 */
+            box-sizing: border-box;
+        }
+
+        .top-news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .top-news-item:hover img {
+            transform: scale(1.05);                 /* 鼠标悬停时图片放大 */
+        }
+
+        .top-news-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, #2c5282);  /* 使用渐变色 */
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .top-news-caption h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            line-height: 1.4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);  /* 添加文字阴影提可读性 */
+        }
+
+        .top-news-caption p {
+            margin: 0;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);  /* 添加文字阴影提高可读性 */
+        }
+
+        .top-news-date {
+            display: none;  /* 隐藏日期标签 */
+        }
+
+        /* 添加链接样式 */
+        .top-news-item {
+            text-decoration: none;  /* 移除下划线 */
+            color: inherit;         /* 继承颜色 */
+        }
+
+        a.top-news-item {
+            display: block;        /* 使链接占满整个区域 */
+            position: relative;    /* 保持相对定位 */
+        }
+
+        /* 修改大尺寸新闻的文字背景样式 */
+        .top-news-item.large .top-news-caption {
+            background: linear-gradient(transparent, rgba(220, 53, 69, 0.9));  /* 使用红色渐变 */
+            padding: 40px;  /* 增加内边距 */
+        }
+
+        .top-news-item.large .top-news-caption h3 {
+            font-size: 28px;  /* 增大标题字号 */
+            margin-bottom: 15px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);  /* 添加文字阴影 */
+        }
+
+        .top-news-item.large .top-news-caption p {
+            font-size: 18px;  /* 增大描述文字字号 */
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);  /* 添加文字阴影 */
+        }
+
+        /* 保持其他新闻原有样式 */
+        .top-news-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, #2c5282);  /* 原有的蓝色渐变 */
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* 修改大尺寸新闻样式 */
+        .top-news-item.large {
+            grid-column: 1 / span 3;  /* 横跨3列 */
+            height: 600px;           /* 增加高度到600px */
+            position: relative;      /* 添加相对定位 */
+            overflow: hidden;        /* 隐藏出部分 */
+        }
+
+        .top-news-item.large img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;     /* 保持图片比例 */
+            background: #f8f9fa;     /* 添加景色 */
+            padding: 0;              /* 移除内边距 */
+            box-sizing: border-box;
+            transform: translateY(-100px);  /* 向上移动50px */
+            margin-top: 50px;             /* 添加上边距以补偿位移 */
+        }
+
+        .top-news-item.large .top-news-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            background: linear-gradient(transparent, #2c5282);
+            z-index: 1;             /* 确保文字在图片上层 */
+        }
+
+        /* 添加悬停效果 */
+        .top-news-item.large:hover img {
+            transform: translateY(-100px) scale(1.05);  /* 保持向上位移并添加放大效果 */
+            transition: transform 0.3s ease;
+        }
+
+        /* 修改普通新闻项的样式 */
+        .top-news-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 450px;          /* 增加普通新闻项的高度 */
+            background: #fff;
+        }
+
+        .top-news-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;    /* 保持图片比例 */
+            display: block;
+            transition: transform 0.3s ease;
+            background: #f8f9fa;    /* 添加背景色 */
+            padding: 0;             /* 移除内边距 */
+        }
+
+        /* 调整置顶新闻区域的上边距 */
+        .top-news {
+            margin-top: 0;
+        }
+        .logo-title {
+    position: relative; /* 为了让内部的伪元素基于它定位 */
+    padding-left: 50px; /* 预留空间给logo，根据logo实际大小调整该值 */
+}
+.logo-title::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%); /* 垂直居中 */
+    background-image: url(images/icons/logo.jpg); /* logo图片路径 */
+    background-size: contain; /* 让图片按比例自适应，完整显示 */
+    background-repeat: no-repeat; /* 不重复显示图片 */
+    width: 50px; /* logo宽度，可按需调整 */
+    height: 50px; /* logo高度，可按需调整 */
+    display: block;
+}
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <img src="images/Body_Background.img" alt="景图片">
+    </div>
+    
+    <div class="page-container">
+        <header>
+            <div class="institution-header">
+                <div class="institution-header-content">
+                    <span><a href="https://www.zjut.edu.cn/" target="_blank">浙江工业大学</a></span>
+                    <span><a href="https://ie.zjut.edu.cn/" target="_blank">信息工程学</a></span>
+                </div>
+            </div>
+            <div class="header-content">
+                <div class="header-content-inner">
+                    <div class="logo-title">
+                        <h1 >感知与控制研究所 Institute of Perception and Control</h1>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <div class="nav-container">
+                    <ul>
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="publications.html">PUBLICATIONS</a></li>
+                        <li><a href="members.html">MEMBERS</a></li>
+                        <li><a href="services.html">SERVICES</a></li>
+                        <li><a href="news.html" class="active">NEWS</a></li>
+                        <li><a href="photos.html">PHOTOS</a></li>
+                        <li><a href="media.html">MEDIA</a></li>
+                        <li><a href="lab-only.html">LAB ONLY</a></li>
+                        <li><a href="contact.html">CONTACT</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <main>
+        <div class="main-card">
+            <!-- 添加置顶新闻标题 -->
+            <div class="title-container">
+                <h2>学术动态/Academic News</h2>
+            </div>
+            
+            <!-- 置顶新闻区域 -->
+            <div id="topNews" class="top-news">
+                <div class="top-news-grid">
+                    <a href="https://ie.zjut.edu.cn/jsp/news.jsp?neId=18092" target="_blank" class="top-news-item">
+                        <img src="images/e-conference/c2.png" alt="e路同行学术坊">
+                        <div class="top-news-caption">
+                            <h3>"e路同行"学术坊第2期</h3>
+                            <p>主讲人：贾立新 教授（浙江工业大学）<br>主题：课赛融合，师生共进 - 指导电赛30年回顾与总结</p>
+                        </div>
+                    </a>
+                    <a href="https://ie.zjut.edu.cn/jsp/news.jsp?neId=18097" target="_blank" class="top-news-item">
+                        <img src="images/frontier lectures/fl57.png" alt="信息技术前沿讲">
+                        <div class="top-news-caption">
+                            <h3>信息技术前沿讲堂第57期预告</h3>
+                            <p>主讲人：刘敏 教授（湖南大学）<br>主题：智能手术机器人多模态感知</p>
+                        </div>
+                    </a>
+                    <a href="https://mp.weixin.qq.com/s/y2bnvmZBNjQW35yx6MybHA" target="_blank" class="top-news-item">
+                        <img src="images/WenanZhang/2024/Wenan_Zhang_2024_08_29_1.jpg" alt="学术研讨">
+                        <div class="top-news-caption">
+                            <h3>"健"良师丨张文安</h3>
+                            <p>"知"以启智，"行"以树人</p>
+                        </div>
+                    </a>
+                    <div class="top-news-item large">
+                        <img src="images/tcct/tcct2024.jpg" alt="TCCT网络化控制系统专题研讨会">
+                        <div class="top-news-caption">
+                            <h3>2024TCCT网络化控制系统专题研讨会</h3>
+                            <p>2024年度TCCT网络化控制系统专题研讨会（2024TCCT Symposium on Networked Control Systems）将于2024年11月16日在浙江师范大学召开。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 研究所动态标题 -->
+            <div class="title-container">
+                <h2>研究所动态/Institute News</h2>
+            </div>
+            <div class="news-content">
+                <div class="news-list" id="newsList">
+                    <!-- 新闻内容会通过JavaScript动态加载 -->
+                </div>
+                <div class="page-navigation">
+                    <button onclick="loadPage(1)" class="page-number active">1</button>
+                    <button onclick="loadPage(2)" class="page-number">2</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>© 2024 感知与控制研究所 版权所有</p>
+            <a href="https://beian.miit.gov.cn">浙ICP备2024139455号-1</a>
+        </div>
+    </footer>
+
+    <script>
+        // 动态数据数组
+        const newsData = [
+            {
+                date: "2024年9月26日",
+                content: "<b>俞立</b>、<b>张丹</b>、<b>张文安</b>、<b>郭方洪</b>、<b>陈博</b>入选美国斯坦福大学和爱思唯尔数据库发布的第七版全球前2%顶尖科学家榜单终身科学影响力榜单和年度科学影响力榜单。",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=18010"
+            },
+            {
+                date: "2024年9月16日",
+                content: "我院成功举办IEEE/CAA Journal of Automatica Sinica 创刊十周年系列论坛。论坛围绕复杂系统智能感知与控制这一主题，探讨现有智能感知与控制领域的理论、方法和技术所面临的挑战，探索新思路、新方法以及新方向。",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17996"
+            },
+            {
+                date: "2024年8月27日",
+                content: "由<b>郭方洪</b>、<b>吴祥</b>指导的参赛队伍在第十九届全国大学生智能汽车竞赛中斩获大赛全国一等奖8项、二等奖1项，一等奖获奖数量位列全国高校并列第一！",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17964"
+            },
+            {
+                date: "2024年8月16日",
+                content: "<b>张文安</b>院长带领教授博士团一行7人，赴湖州市吴兴区走访浙江创特新材料技术有限公司并看望学院联培学子。",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17973"
+            },
+            {
+                date: "2024年8月15日",
+                content: "由<b>刘安东</b>、<b>仇翔</b>、<b>张丹</b>、<b>滕游</b>、<b>陈博</b>老师指的参赛队伍在2024中国机器人大会暨RoboCup机器人世界杯中国赛浙江赛区比赛获一等奖3项、二等奖1项、三等奖2项。",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17968"
+            },
+            {
+                date: "2024年6月28日",
+                content: "<b>陈博</b>教授课题组复杂系统稳定性分析方法研究取得新进展，提出了一套完全基于数据的复杂系统稳定性分析理论与方法。",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17916"
+            },
+            {
+                date: "2024年5月23",
+                content: "<b>张文安</b>院长、<b>付明磊</b>、<b>周叶剑</b>、<b>李涛</b>等师生代表学院参与了白俄罗斯国家科学院信息所专家团的接待和流。",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17841"
+            },
+            {
+                date: "2024年5月23日",
+                content: "由<b>刘安东</b>、<b>倪洪杰</b>、<b>张丹</b>、<b>仇翔</b>、<b>游</b>、<b>陈博</b>老师指导的参赛队伍在浙江省第八届大学生机器人竞赛中获一等奖3项，二等奖2项，三等奖4项。",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17969"
+            },
+            {
+                date: "2024年4月20日",
+                content: "我院成功承办浙江工业大学智能感知与控制前沿论坛。论坛由<b>俞立</b>教授、<b>张文安</b>教授担任顾问，<b>张丹</b>教授担任论坛主席，<b>刘安东</b>副教授和<b>郭方洪</b>副教授担任论坛主席。",
+                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17776"
+            }
+        ];
+
+        function loadPage(pageNum) {
+            const newsList = document.getElementById('newsList');
+            const topNews = document.getElementById('topNews');
+            const academicTitle = document.querySelector('.title-container:first-of-type');  // 获取第一个标题容器
+            
+            // 控制置顶新闻区域和第一个标题的显示
+            if (pageNum === 1) {
+                topNews.style.display = 'block';
+                academicTitle.style.display = 'block';  // 第一页显示标题
+            } else {
+                topNews.style.display = 'none';
+                academicTitle.style.display = 'none';   // 其他页面隐藏标题
+            }
+            
+            // 清空新闻列表
+            newsList.innerHTML = '';
+            
+            const start = (pageNum - 1) * 8;
+            const end = Math.min(start + 8, newsData.length);
+            
+            // 加载普通新闻
+            for(let i = start; i < end; i++) {
+                const news = newsData[i];
+                const newsItem = document.createElement('a');
+                newsItem.className = 'news-item';
+                newsItem.href = news.link;
+                newsItem.target = "_blank";
+                newsItem.innerHTML = `
+                    <span class="date">${news.date}</span>
+                    <p>${news.content}</p>
+                `;
+                newsList.appendChild(newsItem);
+            }
+
+            // 更新页码状态
+            document.querySelectorAll('.page-number').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.page-number')[pageNum - 1].classList.add('active');
+        }
+
+        // 页面加载时显示第一页
+        loadPage(1);
+
+        // 幻灯片切换逻辑
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (n + slides.length) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        // 自动播放
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+
+        // 按钮点击事件
+        document.querySelector('.prev').onclick = () => showSlide(currentSlide - 1);
+        document.querySelector('.next').onclick = () => showSlide(currentSlide + 1);
+
+        // 指示器点击事件
+        dots.forEach((dot, index) => {
+            dot.onclick = () => showSlide(index);
+        });
+    </script>
+
+    <style>
+        .logo-title {
+            position: relative; /* 为了让内部的伪元素基于它定位 */
+            padding-left: 50px; /* 预留空间给logo，根据logo实际大小调整该值 */
+        }
+    </style>
+</body>
+</html>
