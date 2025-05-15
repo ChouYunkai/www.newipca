@@ -1,13 +1,14 @@
 backend:
-  name: git-gateway
-  branch: master # 根据您的分支名称调整，可能是master或main
+  name: github
+  repo: ChouYunkai/www.newipca
+  branch: master
 
 media_folder: "images/uploads" # 媒体文件将存储在网站的哪个目录
 public_folder: "/images/uploads" # 上传的媒体文件的公共访问路径
 
 # 启用编辑预览
-site_url: https://您的网站域名
-display_url: https://您的网站域名
+site_url: https://devserver-preview--newipc-zjut.netlify.app
+display_url: https://devserver-preview--newipc-zjut.netlify.app
 locale: "zh_CN"
 
 collections:

@@ -4,8 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>感知与控制研究所 - 内容管理系统</title>
-    <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
       /* 自定义预览样式 */
       .preview-card {
@@ -33,9 +31,6 @@
     </style>
   </head>
   <body>
-    <!-- 添加显示登录按钮 -->
-    <div data-netlify-identity-button></div>
-    
     <!-- Netlify CMS -->
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
     
@@ -81,19 +76,6 @@
       // 注册预览模板
       CMS.registerPreviewTemplate('news', NewsPreview);
       CMS.registerPreviewTemplate('members', MemberPreview);
-    </script>
-    
-    <!-- 确保身份验证重定向正确工作 -->
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
     </script>
   </body>
 </html> 
