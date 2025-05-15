@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: main # 根据您的分支名称调整，可能是master或main
+  branch: master # 根据您的分支名称调整，可能是master或main
 
 media_folder: "images/uploads" # 媒体文件将存储在网站的哪个目录
 public_folder: "/images/uploads" # 上传的媒体文件的公共访问路径
