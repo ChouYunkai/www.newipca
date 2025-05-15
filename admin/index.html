@@ -28,54 +28,211 @@
         font-size: 0.9em;
         margin-bottom: 20px;
       }
+      
+      /* 登录状态样式 */
+      .login-status {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: #1e3f66;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .login-status button {
+        background: white;
+        color: #1e3f66;
+        border: none;
+        padding: 3px 8px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      
+      /* 未登录时的样式 */
+      .not-logged-in {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+        text-align: center;
+      }
+      .not-logged-in h2 {
+        margin-bottom: 20px;
+      }
+      .not-logged-in a {
+        display: inline-block;
+        background: #1e3f66;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
-    <!-- Netlify CMS -->
-    <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    <div id="login-status" class="login-status" style="display: none;">
+      登录用户: <span id="username"></span>
+      <button id="logout-btn">退出</button>
+    </div>
     
-    <!-- 自定义预览模板 -->
+    <div id="not-logged-in" class="not-logged-in" style="display: none;">
+      <h2>请先登录后访问内容管理系统</h2>
+      <a href="/admin/login.html">前往登录</a>
+    </div>
+    
+    <div id="cms-container" style="display: none;">
+      <!-- Netlify CMS -->
+      <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    </div>
+    
     <script>
-      // 新闻预览模板
-      var NewsPreview = createClass({
-        render: function() {
-          var entry = this.props.entry;
-          var image = entry.getIn(['data', 'thumbnail']);
-          var bg = image ? this.props.getAsset(image).toString() : '';
+      // 检查登录状态
+      function checkLoginStatus() {
+        const user = JSON.parse(localStorage.getItem('cms_user') || '{"loggedIn": false}');
+        
+        if (user.loggedIn) {
+          // 已登录显示CMS
+          document.getElementById('cms-container').style.display = 'block';
+          document.getElementById('login-status').style.display = 'flex';
+          document.getElementById('username').textContent = user.username || 'ipca';
+          document.getElementById('not-logged-in').style.display = 'none';
           
-          return h('div', {className: 'preview-card'},
-            image ? h('img', {src: bg}) : null,
-            h('h1', {}, entry.getIn(['data', 'title'])),
-            h('div', {className: 'meta'}, 
-              h('span', {}, '发布日期: ' + entry.getIn(['data', 'date']))
-            ),
-            h('p', {}, entry.getIn(['data', 'description'])),
-            h('div', {className: 'content'}, this.props.widgetFor('body'))
-          );
-        }
-      });
-      
-      // 团队成员预览模板
-      var MemberPreview = createClass({
-        render: function() {
-          var entry = this.props.entry;
-          var image = entry.getIn(['data', 'photo']);
-          var bg = image ? this.props.getAsset(image).toString() : '';
+          // 配置CMS初始化
+          window.CMS_MANUAL_INIT = true;
           
-          return h('div', {className: 'preview-card'},
-            image ? h('img', {src: bg, style: {maxWidth: '200px'}}) : null,
-            h('h1', {}, entry.getIn(['data', 'name'])),
-            h('div', {className: 'meta'}, 
-              h('span', {}, '职位: ' + entry.getIn(['data', 'position']))
-            ),
-            h('div', {className: 'content'}, this.props.widgetFor('bio'))
-          );
+          // 初始化CMS
+          window.initCMS = function() {
+            const cms = window.CMS;
+            cms.init({
+              config: {
+                backend: {
+                  name: 'test-repo',
+                },
+                media_folder: 'images/uploads',
+                public_folder: '/images/uploads',
+                collections: [
+                  {
+                    name: 'news',
+                    label: '新闻',
+                    folder: '_news',
+                    create: true,
+                    slug: '{{year}}-{{month}}-{{day}}-{{slug}}',
+                    fields: [
+                      {label: '标题', name: 'title', widget: 'string'},
+                      {label: '发布日期', name: 'date', widget: 'datetime'},
+                      {label: '概要', name: 'description', widget: 'text'},
+                      {label: '内容', name: 'body', widget: 'markdown'},
+                      {label: '缩略图', name: 'thumbnail', widget: 'image', required: false}
+                    ]
+                  },
+                  {
+                    name: 'members',
+                    label: '团队成员',
+                    folder: '_members',
+                    create: true,
+                    slug: '{{slug}}',
+                    fields: [
+                      {label: '姓名', name: 'name', widget: 'string'},
+                      {label: '职位', name: 'position', widget: 'string'},
+                      {label: '照片', name: 'photo', widget: 'image', required: false},
+                      {label: '简介', name: 'bio', widget: 'markdown'},
+                      {label: '显示顺序', name: 'order', widget: 'number'}
+                    ]
+                  },
+                  {
+                    name: 'publications',
+                    label: '论文发表',
+                    folder: '_publications',
+                    create: true,
+                    slug: '{{year}}-{{slug}}',
+                    fields: [
+                      {label: '标题', name: 'title', widget: 'string'},
+                      {label: '作者', name: 'authors', widget: 'string'},
+                      {label: '发表日期', name: 'date', widget: 'datetime'},
+                      {label: '期刊/会议', name: 'journal', widget: 'string'},
+                      {label: '摘要', name: 'abstract', widget: 'text', required: false},
+                      {label: '链接', name: 'link', widget: 'string', required: false},
+                      {label: 'PDF文件', name: 'pdf', widget: 'file', required: false}
+                    ]
+                  }
+                ]
+              }
+            });
+            
+            // 自定义预览模板
+            var NewsPreview = createClass({
+              render: function() {
+                var entry = this.props.entry;
+                var image = entry.getIn(['data', 'thumbnail']);
+                var bg = image ? this.props.getAsset(image).toString() : '';
+                
+                return h('div', {className: 'preview-card'},
+                  image ? h('img', {src: bg}) : null,
+                  h('h1', {}, entry.getIn(['data', 'title'])),
+                  h('div', {className: 'meta'}, 
+                    h('span', {}, '发布日期: ' + entry.getIn(['data', 'date']))
+                  ),
+                  h('p', {}, entry.getIn(['data', 'description'])),
+                  h('div', {className: 'content'}, this.props.widgetFor('body'))
+                );
+              }
+            });
+            
+            // 团队成员预览模板
+            var MemberPreview = createClass({
+              render: function() {
+                var entry = this.props.entry;
+                var image = entry.getIn(['data', 'photo']);
+                var bg = image ? this.props.getAsset(image).toString() : '';
+                
+                return h('div', {className: 'preview-card'},
+                  image ? h('img', {src: bg, style: {maxWidth: '200px'}}) : null,
+                  h('h1', {}, entry.getIn(['data', 'name'])),
+                  h('div', {className: 'meta'}, 
+                    h('span', {}, '职位: ' + entry.getIn(['data', 'position']))
+                  ),
+                  h('div', {className: 'content'}, this.props.widgetFor('bio'))
+                );
+              }
+            });
+            
+            // 注册预览模板
+            cms.registerPreviewTemplate('news', NewsPreview);
+            cms.registerPreviewTemplate('members', MemberPreview);
+          };
+          
+          // 加载CMS脚本后初始化
+          if (window.CMS) {
+            window.initCMS();
+          } else {
+            window.addEventListener('load', function() {
+              if (window.CMS) {
+                window.initCMS();
+              }
+            });
+          }
+        } else {
+          // 未登录显示登录提示
+          document.getElementById('cms-container').style.display = 'none';
+          document.getElementById('login-status').style.display = 'none';
+          document.getElementById('not-logged-in').style.display = 'flex';
         }
-      });
+      }
       
-      // 注册预览模板
-      CMS.registerPreviewTemplate('news', NewsPreview);
-      CMS.registerPreviewTemplate('members', MemberPreview);
+      // 页面加载时检查登录状态
+      window.addEventListener('DOMContentLoaded', checkLoginStatus);
+      
+      // 退出登录
+      document.getElementById('logout-btn').addEventListener('click', function() {
+        localStorage.removeItem('cms_user');
+        window.location.href = '/admin/login.html';
+      });
     </script>
   </body>
 </html> 

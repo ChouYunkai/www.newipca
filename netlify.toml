@@ -1,0 +1,16 @@
+[build]
+  publish = "."
+
+# 本地测试后端设置
+[dev]
+  framework = "#static"
+
+# 生成简单的登录认证
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+# 添加身份验证模拟
+[functions]
+  directory = "functions" 

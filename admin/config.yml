@@ -1,7 +1,8 @@
 backend:
-  name: github
-  repo: ChouYunkai/www.newipca
-  branch: master
+  name: test-repo
+
+# 启用编辑工作流程，可在本地使用
+publish_mode: editorial_workflow
 
 media_folder: "images/uploads" # 媒体文件将存储在网站的哪个目录
 public_folder: "/images/uploads" # 上传的媒体文件的公共访问路径
