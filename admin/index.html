@@ -6,6 +6,31 @@
     <title>感知与控制研究所 - 内容管理系统</title>
     <!-- Netlify Identity Widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+      /* 自定义预览样式 */
+      .preview-card {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      }
+      .preview-card img {
+        max-width: 100%;
+        height: auto;
+      }
+      .preview-card h1 {
+        color: #1e3f66;
+        margin-bottom: 10px;
+      }
+      .preview-card .meta {
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 20px;
+      }
+    </style>
   </head>
   <body>
     <!-- 添加显示登录按钮 -->
@@ -13,6 +38,50 @@
     
     <!-- Netlify CMS -->
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
+    
+    <!-- 自定义预览模板 -->
+    <script>
+      // 新闻预览模板
+      var NewsPreview = createClass({
+        render: function() {
+          var entry = this.props.entry;
+          var image = entry.getIn(['data', 'thumbnail']);
+          var bg = image ? this.props.getAsset(image).toString() : '';
+          
+          return h('div', {className: 'preview-card'},
+            image ? h('img', {src: bg}) : null,
+            h('h1', {}, entry.getIn(['data', 'title'])),
+            h('div', {className: 'meta'}, 
+              h('span', {}, '发布日期: ' + entry.getIn(['data', 'date']))
+            ),
+            h('p', {}, entry.getIn(['data', 'description'])),
+            h('div', {className: 'content'}, this.props.widgetFor('body'))
+          );
+        }
+      });
+      
+      // 团队成员预览模板
+      var MemberPreview = createClass({
+        render: function() {
+          var entry = this.props.entry;
+          var image = entry.getIn(['data', 'photo']);
+          var bg = image ? this.props.getAsset(image).toString() : '';
+          
+          return h('div', {className: 'preview-card'},
+            image ? h('img', {src: bg, style: {maxWidth: '200px'}}) : null,
+            h('h1', {}, entry.getIn(['data', 'name'])),
+            h('div', {className: 'meta'}, 
+              h('span', {}, '职位: ' + entry.getIn(['data', 'position']))
+            ),
+            h('div', {className: 'content'}, this.props.widgetFor('bio'))
+          );
+        }
+      });
+      
+      // 注册预览模板
+      CMS.registerPreviewTemplate('news', NewsPreview);
+      CMS.registerPreviewTemplate('members', MemberPreview);
+    </script>
     
     <!-- 确保身份验证重定向正确工作 -->
     <script>

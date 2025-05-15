@@ -1,0 +1,21 @@
+{
+  "background_image": "/images/uploads/background.jpg",
+  "announcement": "欢迎访问感知与控制研究所官网。我们正在招聘博士后和研究助理，有意者请联系我们。",
+  "slides": [
+    {
+      "image": "/images/uploads/slide1.jpg",
+      "title": "智能控制系统研究",
+      "description": "研究所专注于智能控制系统的设计与实现，应用于工业自动化、智能交通等领域。"
+    },
+    {
+      "image": "/images/uploads/slide2.jpg",
+      "title": "学术交流活动",
+      "description": "研究所定期举办学术讲座和研讨会，促进学术交流与合作。"
+    },
+    {
+      "image": "/images/uploads/slide3.jpg",
+      "title": "产学研合作",
+      "description": "与多家企业建立合作关系，推动科研成果转化和应用。"
+    }
+  ]
+} 

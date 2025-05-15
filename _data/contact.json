@@ -1,0 +1,16 @@
+{
+  "address": "浙江省杭州市西湖区浙江工业大学朝晖校区",
+  "email": "contact@newipc-zjut.com",
+  "phone": "+86 571-88888888",
+  "fax": "+86 571-88888889",
+  "social": [
+    {
+      "platform": "微信公众号",
+      "url": "https://weixin.qq.com/example"
+    },
+    {
+      "platform": "知乎",
+      "url": "https://zhihu.com/example"
+    }
+  ]
+} 
