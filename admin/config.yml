@@ -1,5 +1,10 @@
 backend:
-  name: test-repo
+  name: github
+  repo: ChouYunkai/www.newipca
+  branch: main
+  auth_type: implicit
+  base_url: https://api.netlify.com
+  site_id: devserver-preview--newipc-zjut # 或者您的Netlify站点ID
 
 # 启用编辑工作流程，可在本地使用
 publish_mode: editorial_workflow
