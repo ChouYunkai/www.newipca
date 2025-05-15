@@ -9,6 +9,16 @@
     <!-- Netlify Visual Editor -->
     <script type="text/javascript" src="https://app.netlify.com/bricks.js" defer></script>
     
+    <!-- Stackbit 编辑器集成代码 -->
+    <script src="https://cdn.jsdelivr.net/npm/@stackbit/sdk@latest/dist/stackbit-sdk.min.js" defer></script>
+    <script>
+        window.onload = function() {
+            if (window.Stackbit) {
+                window.Stackbit.init({});
+            }
+        };
+    </script>
+    
     <style>
         :root {
             --header-bg: #1e3f66;        /* 深蓝色背景 */
@@ -1330,5 +1340,10 @@ footer {
             padding-left: 50px; /* 预留空间给logo，根据logo实际大小调整该值 */
         }
     </style>
+
+    <!-- 页面内容结束 -->
+    
+    <!-- Stackbit 浏览器端集成 -->
+    <script src="stackbit-browser.js"></script>
 </body>
 </html>

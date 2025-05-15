@@ -1,5 +1,12 @@
+# Netlify 配置文件
 [build]
   publish = "."
+  command = "# 无需构建命令"
+
+# Stackbit 集成配置
+[build.environment]
+  STACKBIT_API_KEY = "stackbit"
+  STACKBIT_PROJECT_ID = "stackbit"
 
 # 本地测试后端设置
 [dev]
@@ -22,4 +29,15 @@
   
 [bricks.visual_editing]
   enabled = true
-  preview_url = "https://www.newipc-zjut.com" 
+  preview_url = "https://www.newipc-zjut.com"
+
+# 头部配置
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "ALLOWALL"
+    Access-Control-Allow-Origin = "*"
+
+# Stackbit 热更新支持
+[[plugins]]
+  package = "@netlify/plugin-sitemap" 
