@@ -2,9 +2,13 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>感知与控制研究所</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Netlify Visual Editor -->
+    <script type="text/javascript" src="https://app.netlify.com/bricks.js" defer></script>
     <style>
         :root {
             --header-bg: #1e3f66;        /* 深蓝色背景 */
@@ -1221,237 +1225,48 @@ footer a:hover {
 
     <main>
         <div class="main-card">
-            <section id="slider">
-                <div class="slider-container">
-                    <div class="slides">
-                        <div class="slide active">
-                            <img src="images/home_images/conference1.jpg" alt="幻灯片1">
-                            <div class="slide-caption">
-                                <h3>"数字感知文化·交易引领未来"--感知与控制研究所党支部与浙江文化产权交易所党支部开展党建联建活动</h3>
-                                <div class="slide-info">
-                                    <span class="slide-source">学院党委</span>
-                                    <span class="slide-time">2024-12-18</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <img src="images/home_images/tcct2024.jpg" alt="幻灯片3">
-                            <div class="slide-caption">
-                                <h3>2024年度 TCCT网络化控制系统专题研讨会</h3>
-                                <div class="slide-info">
-                                    <span class="slide-source">TCCT网络化控制系统学组</span>
-                                    <span class="slide-time">2024-11-16</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <img src="images/home_images/dd18.jpg" alt="幻灯片2">
-                            <div class="slide-caption">
-                                <h3>第18届浙江省高校自动化类专业院长、系主任论坛顺利召开</h3>
-                                <div class="slide-info">
-                                    <span class="slide-source">自动化系主任论坛</span>
-                                    <span class="slide-time">2024-11-13</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 导航按钮 -->
-                    <button class="slider-nav prev" onclick="changeSlide(-1)">&lt;</button>
-                    <button class="slider-nav next" onclick="changeSlide(1)">&gt;</button>
-                    <!-- 指示器 -->
-                    <div class="slider-dots">
-                        <span class="dot active" onclick="goToSlide(0)"></span>
-                        <span class="dot" onclick="goToSlide(1)"></span>
-                        <span class="dot" onclick="goToSlide(2)"></span>
-                    </div>
+            <section>
+                <div class="title-container">
+                    <h2 data-netlify-bricks-content="introduction-title">研究所简介/About Us</h2>
+                </div>
+                <div class="intro" data-netlify-bricks-content="introduction-text">
+                    <p>感知与控制研究所（Institute of Perception and Control）是浙江工业大学信息工程学院下属的研究机构，专注于智能感知、信息处理与控制系统的前沿研究。</p>
+                    <p>研究所拥有一支由教授、副教授和博士生组成的高水平研究团队，在复杂系统建模与控制、智能信息处理、无线传感器网络等领域具有丰富的研究经验和成果。我们致力于基础理论研究与实际工程应用相结合，积极与国内外高校、研究机构和企业开展广泛合作。</p>
                 </div>
             </section>
 
+            <section id="research">
+                <div class="title-container">
+                    <h2 data-netlify-bricks-content="research-title">研究方向/Research</h2>
+                </div>
+                <ul data-netlify-bricks-content="research-areas">
+                    <li>复杂系统建模、分析与控制</li>
+                    <li>机器学习与深度学习</li>
+                    <li>计算机视觉与图像处理</li>
+                    <li>分布式控制与优化</li>
+                    <li>工业物联网与边缘计算</li>
+                </ul>
+            </section>
+
             <section id="news">
-                <h2>最新动态/News</h2>
+                <div class="title-container">
+                    <h2 data-netlify-bricks-content="news-title">研究所动态/News</h2>
+                </div>
                 <div class="news-list">
-                    <a href="https://mp.weixin.qq.com/s/Aq-aP21595RzNSpU0GptxQ" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/JinZheHao.jpg" alt="我院24届博士毕业生金哲豪入选欧盟"玛丽·居里学者"人才计划">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】我院24届博士毕业生金哲豪入选欧盟"玛丽·居里学者"人才计划。</span>
-                            <div class="news-meta">
-                                <span class="news-source">e之蓝</span>
-                                <span class="news-time">2025-4-2</span>
-                            </div>
-                        </div>
-                    </a>  
-                    <a href="http://www.newipc-zjut.com/index.html" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/25.4.2yugao.png" alt="感知与控制研究所学术报告预告">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">感知与控制研究所学术报告预告。</span>
-                            <div class="news-meta">
-                                <span class="news-source">信息工程学院</span>
-                                <span class="news-time">2025-4-2</span>
-                            </div>
-                        </div>
-                    </a> 
-                    <a href="https://www.caa.org.cn/article/192/5094.html" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/CAA_2025_1_1.png" alt="2024中国自动化学会高等教育（本科、研究生）教学成果评价结果公示">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【新闻速递】2024中国自动化学会高等教育（本科、研究生）教学成果评价结果公示</span>
-                            <div class="news-meta">
-                                <span class="news-source">CAA</span>
-                                <span class="news-time">2024-12-31</span>
-                            </div>
-                        </div>
-                    </a>    
-                    <a href="https://mp.weixin.qq.com/s/H7VTHM3ZU4FPgheytTl8pw" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/news_2025_1_1.gif" alt="一等奖+2 信息学院牵头获浙江省自然科学奖3项">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】我院以第一完成单位获得浙江省自然科学和科技进步一等奖各1项，自然科学二等奖2项，参与项目获得浙江省科技进步奖二等奖1项、三等奖1项，取得历史性突破。专用成果按规定公布。</span>
-                            <div class="news-meta">
-                                <span class="news-source">信息工程学院</span>
-                                <span class="news-time">2024-12-30</span>
-                            </div>
-                        </div>
+                    <a href="https://mp.weixin.qq.com/s/Aq-aP21595RzNSpU0GptxQ" class="news-item" data-netlify-bricks-content="news-item-1">
+                        <span class="date">2023年6月15日</span>
+                        <p>我院博士毕业生金哲豪入选欧盟"玛丽·居里学者"人才计划</p>
                     </a>
-                    <a href="https://mp.weixin.qq.com/s/8MbkpNBGGNmamYViF_okog" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/PATENT_2025_1_1.jpg" alt="连续七年！中国专利优秀奖，浙工大再+1">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】信息工程学院董辉教授团队申报的发明专利"一种高精度变插补周期的多轴联动运动控制方法"荣获中国专利奖优秀奖，这是我校连续七年荣获中国专利奖优秀奖，历年累计获中国专利金奖2项、优秀奖21项。</span>
-                            <div class="news-meta">
-                                <span class="news-source">信息工程学院</span>
-                                <span class="news-time">2024-12-30</span>
-                            </div>
-                        </div>
+                    <a href="https://ie.zjut.edu.cn/xxgcxy/jsp/news.jsp?neId=18300" class="news-item" data-netlify-bricks-content="news-item-2">
+                        <span class="date">2023年3月12日</span>
+                        <p>东京工科大学教授佘锦华等来访并作学术报告</p>
                     </a>
-                    <a href="https://ie.zjut.edu.cn/jsp/news.jsp?neId=17964" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Fanghong_Guo_2024_08_08_1.jpg" alt="智能汽车竞赛获奖新闻">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】郭方洪、吴祥指导的参赛队伍在第十九届全国大学生智能汽车竞赛中斩获大赛全国一等奖8项、二等奖1项，一等奖获奖数量位列全国高校并列第一!</span>
-                            <div class="news-meta">
-                                <span class="news-source">信息工程学院</span>
-                                <span class="news-time">2024-08-08</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/C6QCjYvDCuzfTziC_roqnA" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Wenan_Zhang_2024_08_29_1.png" alt="学术报告">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【学术报告】浙江工业大学教授张文安：面向离散制造运动控制系统的工业软件设计与实现。</span>
-                            <div class="news-meta">
-                                <span class="news-source">中国自动学会</span>
-                                <span class="news-time">2024-06-20</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/-zR0kF0EyZb4GOEvvZdRBA" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Hui_Dong_2024_06_11_1.webp" alt="新闻报道">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【新闻报道】董辉教授因在高校科技创新与地方成果转化方面的卓越成效，成功入选首批"浙江省最具创新力青年科技型企业家"，也是此次富阳唯一入选的企业家代表。</span>
-                            <div class="news-meta">
-                                <span class="news-source">富阳日报</span>
-                                <span class="news-time">2024-06-11</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/F9-YrhLWOkT7ZEXZcFgOjA" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Hongjie_Ni_2023_11_20.jpg" alt="获奖新闻">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】倪洪杰教授牵头完成的成果"移动台装备演出运动控制关键技术及应用"获中国自动化学会科技进步奖二等奖。</span>
-                            <div class="news-meta">
-                                <span class="news-source">信息工程学院</span>
-                                <span class="news-time">2023-11-23</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/5gmwCIyLAcYP8gxBsSxZEg" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Hui_Dong_1.jpg" alt="获奖新闻">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】董辉教授牵头完成的成果"多轴机器人高性能运动控制关键技术研发及应用"荣获中国自动化学会科技进步奖一等奖。该项目在机器人高端控制器领域实现了自主安全可控的逐步替代。</span>
-                            <div class="news-meta">
-                                <span class="news-source">中国自动化学会</span>
-                                <span class="news-time">2023-11-02</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/KLT8dDMLxI7fYete-cTV1g" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Hui_Dong_2023_09_22_1.jpg" alt="获奖新闻">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】董辉教授团队荣获第一届浙江省知识产权奖二等奖，在多轴运动控制领域提出了一种高精度变插补周期的多轴联动运动控制方法。</span>
-                            <div class="news-meta">
-                                <span class="news-source">澎湃新闻</span>
-                                <span class="news-time">2023年09月22日</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/cbYWE-jRm_8ZzcmLyDV2Cw" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Dan_Zhang_2023_09_13.jpg" alt="获奖新闻">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】张丹教授获国家自然科学基金优秀青年科学基金项目资助！</span>
-                            <div class="news-meta">
-                                <span class="news-source">信息工程学院</span>
-                                <span class="news-time">2023-08-15</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/QtV3boYFLj1y4WYsJE0ckw" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Hui_Dong_2023_05_04_2.jpg" alt="获奖新闻">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】我院院长董辉教授荣膺"2022中国自动化领域年度人物"。4月27日，2023中国自动化产业年会9大奖项获奖结果揭晓，我院院长董辉教授荣膺"2022中国自动化领域年度人物"称号。</span>
-                            <div class="news-meta">
-                                <span class="news-source">金华研究院</span>
-                                <span class="news-time">2023-05-04</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/IdJZ8T7CXnvMb9EsF8Ky6g" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Hongjie_Ni_2023_11_23_1.jpg" alt="获奖新闻">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜报】倪洪杰教授荣获2022年中国产学研合作创新与促进奖——产学研合作创新奖（个人）</span>
-                            <div class="news-meta">
-                                <span class="news-source">湖州数字经济技术研究院</span>
-                                <span class="news-time">2023-02-21</span>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/G2nERMk2nNLBH37d2LElxA" target="_blank" class="news-item">
-                        <div class="news-image">
-                            <img src="images/news_images/Dan_Zhang_2023_12_09_1.jpg" alt="获奖新闻">
-                        </div>
-                        <div class="news-content">
-                            <span class="news-title">【喜讯】张丹教授团队成果《复杂网络环境下的运动控制系统智能感知与协同控制理论》荣获2022中国自动化学会自然科学奖二等奖！</span>
-                            <div class="news-meta">
-                                <span class="news-source">湖州数字经济技术研究院</span>
-                                <span class="news-time">2022-12-09</span>
-                            </div>
-                        </div>
+                    <a href="https://mp.weixin.qq.com/s/y2bnvmZBNjQW35yx6MybHA" class="news-item" data-netlify-bricks-content="news-item-3">
+                        <span class="date">2023年1月8日</span>
+                        <p>张文安教授获评浙江工业大学"健"良师</p>
                     </a>
                 </div>
-                <a href="news.html" class="more-news">更多动态 >></a>
+                <a href="news.html" class="more-news">查看更多</a>
             </section>
         </div>
     </main>
@@ -1535,6 +1350,16 @@ footer a:hover {
                 dot.onclick = () => goToSlide(index);
             });
         });
+
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+        }
     </script>
 </body>
 </html> 

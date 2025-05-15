@@ -13,4 +13,13 @@
 
 # 添加身份验证模拟
 [functions]
-  directory = "functions" 
+  directory = "functions"
+
+# Netlify Bricks 配置
+[bricks]
+  enabled = true
+  site_name = "感知与控制研究所"
+  
+[bricks.visual_editing]
+  enabled = true
+  preview_url = "https://www.newipc-zjut.com" 

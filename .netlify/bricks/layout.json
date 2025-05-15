@@ -1,0 +1,112 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "name": "首页",
+      "components": [
+        {
+          "name": "header",
+          "label": "页头",
+          "selectors": ["header"]
+        },
+        {
+          "name": "hero",
+          "label": "主要内容",
+          "selectors": ["main"]
+        },
+        {
+          "name": "news-section",
+          "label": "新闻部分",
+          "selectors": ["#topNews", ".news-content"]
+        },
+        {
+          "name": "footer",
+          "label": "页脚",
+          "selectors": ["footer"]
+        }
+      ]
+    },
+    {
+      "path": "/news.html",
+      "name": "新闻页面",
+      "components": [
+        {
+          "name": "header",
+          "label": "页头",
+          "selectors": ["header"]
+        },
+        {
+          "name": "news-content",
+          "label": "新闻内容",
+          "selectors": [".main-card"]
+        },
+        {
+          "name": "footer",
+          "label": "页脚",
+          "selectors": ["footer"]
+        }
+      ]
+    },
+    {
+      "path": "/members.html",
+      "name": "团队成员",
+      "components": [
+        {
+          "name": "header",
+          "label": "页头",
+          "selectors": ["header"]
+        },
+        {
+          "name": "members-content",
+          "label": "成员内容",
+          "selectors": [".main-card"]
+        },
+        {
+          "name": "footer",
+          "label": "页脚",
+          "selectors": ["footer"]
+        }
+      ]
+    },
+    {
+      "path": "/publications.html",
+      "name": "论文发表",
+      "components": [
+        {
+          "name": "header",
+          "label": "页头",
+          "selectors": ["header"]
+        },
+        {
+          "name": "publications-content",
+          "label": "论文内容",
+          "selectors": [".main-card"]
+        },
+        {
+          "name": "footer",
+          "label": "页脚",
+          "selectors": ["footer"]
+        }
+      ]
+    }
+  ],
+  "global": {
+    "components": [
+      {
+        "name": "site-navigation",
+        "label": "网站导航",
+        "selectors": ["nav"]
+      },
+      {
+        "name": "site-header",
+        "label": "站点标题",
+        "selectors": [".logo-title"]
+      },
+      {
+        "name": "institution-header",
+        "label": "机构标题",
+        "selectors": [".institution-header-content"]
+      }
+    ]
+  }
+} 

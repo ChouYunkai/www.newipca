@@ -1,0 +1,216 @@
+{
+  "collections": [
+    {
+      "name": "news",
+      "label": "新闻",
+      "folder": "_news",
+      "create": true,
+      "extension": "md",
+      "format": "frontmatter",
+      "slug": "{{year}}-{{month}}-{{day}}-{{slug}}",
+      "fields": [
+        {
+          "name": "title",
+          "label": "标题",
+          "widget": "string"
+        },
+        {
+          "name": "date",
+          "label": "发布日期",
+          "widget": "datetime"
+        },
+        {
+          "name": "description",
+          "label": "概要",
+          "widget": "text"
+        },
+        {
+          "name": "thumbnail",
+          "label": "缩略图",
+          "widget": "image",
+          "required": false
+        },
+        {
+          "name": "body",
+          "label": "内容",
+          "widget": "markdown"
+        }
+      ]
+    },
+    {
+      "name": "members",
+      "label": "团队成员",
+      "folder": "_members",
+      "create": true,
+      "extension": "md",
+      "format": "frontmatter",
+      "slug": "{{slug}}",
+      "fields": [
+        {
+          "name": "name",
+          "label": "姓名",
+          "widget": "string"
+        },
+        {
+          "name": "position",
+          "label": "职位",
+          "widget": "string"
+        },
+        {
+          "name": "photo",
+          "label": "照片",
+          "widget": "image",
+          "required": false
+        },
+        {
+          "name": "bio",
+          "label": "简介",
+          "widget": "markdown"
+        },
+        {
+          "name": "order",
+          "label": "显示顺序",
+          "widget": "number"
+        }
+      ]
+    },
+    {
+      "name": "publications",
+      "label": "论文发表",
+      "folder": "_publications",
+      "create": true,
+      "extension": "md",
+      "format": "frontmatter",
+      "slug": "{{year}}-{{slug}}",
+      "fields": [
+        {
+          "name": "title",
+          "label": "标题",
+          "widget": "string"
+        },
+        {
+          "name": "authors",
+          "label": "作者",
+          "widget": "string"
+        },
+        {
+          "name": "date",
+          "label": "发表日期",
+          "widget": "datetime"
+        },
+        {
+          "name": "journal",
+          "label": "期刊/会议",
+          "widget": "string"
+        },
+        {
+          "name": "abstract",
+          "label": "摘要",
+          "widget": "text",
+          "required": false
+        },
+        {
+          "name": "link",
+          "label": "链接",
+          "widget": "string",
+          "required": false
+        },
+        {
+          "name": "pdf",
+          "label": "PDF文件",
+          "widget": "file",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "name": "contact",
+      "label": "联系方式",
+      "file": "_data/contact.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "address",
+          "label": "地址",
+          "widget": "string"
+        },
+        {
+          "name": "email",
+          "label": "邮箱",
+          "widget": "string"
+        },
+        {
+          "name": "phone",
+          "label": "电话",
+          "widget": "string"
+        },
+        {
+          "name": "fax",
+          "label": "传真",
+          "widget": "string",
+          "required": false
+        },
+        {
+          "name": "social",
+          "label": "社交媒体",
+          "widget": "list",
+          "fields": [
+            {
+              "name": "platform",
+              "label": "平台名称",
+              "widget": "string"
+            },
+            {
+              "name": "url",
+              "label": "链接",
+              "widget": "string"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "homepage",
+      "label": "首页设置",
+      "file": "_data/homepage.json",
+      "format": "json",
+      "fields": [
+        {
+          "name": "background_image",
+          "label": "背景图片",
+          "widget": "image"
+        },
+        {
+          "name": "announcement",
+          "label": "首页通知",
+          "widget": "text",
+          "required": false
+        },
+        {
+          "name": "slides",
+          "label": "首页幻灯片",
+          "widget": "list",
+          "fields": [
+            {
+              "name": "image",
+              "label": "图片",
+              "widget": "image"
+            },
+            {
+              "name": "title",
+              "label": "标题",
+              "widget": "string"
+            },
+            {
+              "name": "description",
+              "label": "描述",
+              "widget": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+} 
