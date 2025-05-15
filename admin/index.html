@@ -109,61 +109,7 @@
           // 初始化CMS
           window.initCMS = function() {
             const cms = window.CMS;
-            cms.init({
-              config: {
-                backend: {
-                  name: 'test-repo',
-                },
-                media_folder: 'images/uploads',
-                public_folder: '/images/uploads',
-                collections: [
-                  {
-                    name: 'news',
-                    label: '新闻',
-                    folder: '_news',
-                    create: true,
-                    slug: '{{year}}-{{month}}-{{day}}-{{slug}}',
-                    fields: [
-                      {label: '标题', name: 'title', widget: 'string'},
-                      {label: '发布日期', name: 'date', widget: 'datetime'},
-                      {label: '概要', name: 'description', widget: 'text'},
-                      {label: '内容', name: 'body', widget: 'markdown'},
-                      {label: '缩略图', name: 'thumbnail', widget: 'image', required: false}
-                    ]
-                  },
-                  {
-                    name: 'members',
-                    label: '团队成员',
-                    folder: '_members',
-                    create: true,
-                    slug: '{{slug}}',
-                    fields: [
-                      {label: '姓名', name: 'name', widget: 'string'},
-                      {label: '职位', name: 'position', widget: 'string'},
-                      {label: '照片', name: 'photo', widget: 'image', required: false},
-                      {label: '简介', name: 'bio', widget: 'markdown'},
-                      {label: '显示顺序', name: 'order', widget: 'number'}
-                    ]
-                  },
-                  {
-                    name: 'publications',
-                    label: '论文发表',
-                    folder: '_publications',
-                    create: true,
-                    slug: '{{year}}-{{slug}}',
-                    fields: [
-                      {label: '标题', name: 'title', widget: 'string'},
-                      {label: '作者', name: 'authors', widget: 'string'},
-                      {label: '发表日期', name: 'date', widget: 'datetime'},
-                      {label: '期刊/会议', name: 'journal', widget: 'string'},
-                      {label: '摘要', name: 'abstract', widget: 'text', required: false},
-                      {label: '链接', name: 'link', widget: 'string', required: false},
-                      {label: 'PDF文件', name: 'pdf', widget: 'file', required: false}
-                    ]
-                  }
-                ]
-              }
-            });
+            cms.init();
             
             // 自定义预览模板
             var NewsPreview = createClass({
