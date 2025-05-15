@@ -14,12 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
     
-    // 在CMS初始化时显示提示
-    window.CMS.registerEventListener({
-      name: 'init',
-      handler: function() {
-        // 在使用test-repo后端时显示提示
-        if (window.CMS.getBackend().options.name === 'test-repo') {
+    // 直接检查后端类型并显示提示
+    setTimeout(function() {
+      if (window.CMS && window.CMS.getBackend && window.CMS.getBackend().options) {
+        const backendName = window.CMS.getBackend().options.name;
+        
+        if (backendName === 'test-repo') {
           console.log('使用测试库模式 - 内容将保存在浏览器中');
           
           // 添加帮助提示
@@ -36,13 +36,19 @@ document.addEventListener('DOMContentLoaded', function() {
           `;
           
           // 将提示添加到界面
-          setTimeout(function() {
-            const mainContainer = document.querySelector('.css-vyh0qp');
-            if (mainContainer) {
-              mainContainer.insertBefore(helpText, mainContainer.firstChild);
-            }
-          }, 1000);
+          const mainContainer = document.querySelector('.css-vyh0qp');
+          if (mainContainer) {
+            mainContainer.insertBefore(helpText, mainContainer.firstChild);
+          }
         }
+      }
+    }, 2000); // 延迟2秒以确保CMS已初始化
+    
+    // 使用预保存事件代替init事件
+    window.CMS.registerEventListener({
+      name: 'preSave',
+      handler: function() {
+        console.log('内容即将保存');
       }
     });
   }
