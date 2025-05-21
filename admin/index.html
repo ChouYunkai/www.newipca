@@ -8,22 +8,59 @@
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
-    <!-- 这个id为nc-root的div是必须的，Decap CMS需要挂载到这个元素 -->
+    <!-- 这个id为root的div是必须的，Decap CMS需要挂载到这个元素 -->
     <div id="nc-root"></div>
     
     <!-- 处理邀请链接和用户身份验证 -->
     <script>
-      // 检查URL中是否包含邀请令牌
-      const searchParams = new URLSearchParams(window.location.search);
-      const hash = window.location.hash;
+      // 处理各种身份验证令牌
+      function handleIdentityTokens() {
+        // 获取URL参数和哈希参数
+        const urlParams = new URLSearchParams(window.location.search);
+        const hash = window.location.hash;
+        
+        // 从URL或哈希中提取令牌
+        const hashParams = new URLSearchParams(hash.replace('#', ''));
+        
+        // 检查各种令牌
+        const inviteToken = urlParams.get('invite_token') || hashParams.get('invite_token');
+        const confirmToken = urlParams.get('confirmation_token') || hashParams.get('confirmation_token');
+        const recoveryToken = urlParams.get('recovery_token') || hashParams.get('recovery_token');
+        
+        console.log('检查令牌:', {inviteToken, confirmToken, recoveryToken});
+        
+        // 处理邀请令牌 (注册)
+        if (inviteToken) {
+          console.log('发现邀请令牌，打开注册表单');
+          window.netlifyIdentity.open('signup');
+          return true;
+        }
+        
+        // 处理确认令牌 (确认邮箱)
+        if (confirmToken) {
+          console.log('发现确认令牌，处理确认流程');
+          // 这将自动处理确认过程
+          return true;
+        }
+        
+        // 处理恢复令牌 (密码重置)
+        if (recoveryToken) {
+          console.log('发现恢复令牌，打开恢复表单');
+          window.netlifyIdentity.open('recover');
+          return true;
+        }
+        
+        return false;
+      }
       
-      if (hash && hash.includes('invite_token')) {
-        const token = hash.split('=')[1];
-        // 打开确认窗口进行密码设置
-        window.netlifyIdentity.open('signup');
-      } else if (window.netlifyIdentity) {
+      // 等待Netlify Identity初始化，然后处理令牌
+      if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
-          if (!user) {
+          // 尝试处理令牌
+          const handled = handleIdentityTokens();
+          
+          // 如果没有处理任何令牌且用户未登录，设置登录事件监听器
+          if (!handled && !user) {
             window.netlifyIdentity.on("login", () => {
               document.location.href = "/admin/";
             });

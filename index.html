@@ -1550,6 +1550,35 @@ footer a:hover {
                 dot.onclick = () => goToSlide(index);
             });
         });
+
+        // 处理Netlify Identity邀请链接
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('invite_token');
+            const confirmToken = urlParams.get('confirmation_token');
+            const recoveryToken = urlParams.get('recovery_token');
+            
+            // 处理邀请链接
+            if (token) {
+                console.log('检测到邀请令牌，重定向到管理界面');
+                window.location.href = "/admin/#invite_token=" + token;
+                return;
+            }
+            
+            // 处理确认链接
+            if (confirmToken) {
+                console.log('检测到确认令牌，重定向到管理界面');
+                window.location.href = "/admin/#confirmation_token=" + confirmToken;
+                return;
+            }
+            
+            // 处理密码重置链接
+            if (recoveryToken) {
+                console.log('检测到恢复令牌，重定向到管理界面');
+                window.location.href = "/admin/#recovery_token=" + recoveryToken;
+                return;
+            }
+        });
     </script>
 </body>
 </html> 
