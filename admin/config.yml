@@ -1,0 +1,23 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/news_images"
+public_folder: "/images/news_images"
+
+collections:
+  - name: "news"
+    label: "最新动态"
+    label_singular: "动态"
+    folder: "news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    fields:
+      - { label: "标题", name: "title", widget: "string" }
+      - { label: "封面图片", name: "image", widget: "image", required: true, hint: "上传新闻配图" }
+      - { label: "图片描述", name: "alt", widget: "string", required: false, hint: "图片alt属性" }
+      - { label: "来源", name: "source", widget: "string" }
+      - { label: "时间", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "外部链接", name: "link", widget: "string", required: true, hint: "新闻详情跳转链接" }
+      - { label: "正文", name: "body", widget: "markdown", required: false } 

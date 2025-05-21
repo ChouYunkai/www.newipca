@@ -1,0 +1,1941 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>感知与控制研究所</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --header-bg: #1e3f66;        /* 深蓝色背景 */
+            --text-dark: #000;           /* 黑色文字 */
+            --text-light: #fff;          /* 白色文字 */
+            --link-hover: #2c5282;       /* 链接悬停颜色 */
+            --content-width: 1200px;     /* 内容区域最大宽度 */
+            --left-margin: 100px;        /* 左边距 */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 添加背景图片容器 */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        /* 添加背景蒙版 */
+        .background-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);  /* 黑色半透明蒙版 */
+            z-index: 1;
+        }
+
+        .background-container img {
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            object-fit: cover;
+            object-position: center;
+            position: relative;
+            z-index: 0;
+        }
+
+        /* 容器样式 */
+        .page-container {
+            min-width: var(--content-width);  /* 添加最小宽度 */
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: auto;  /* 改为auto，允许在小屏幕时滚动 */
+        }
+
+        .institution-header {
+            min-width: var(--content-width);  /* 添加最小宽度 */
+            width: 100%;
+            margin: 0;
+            padding: 2px 0;
+            background: linear-gradient(90deg, var(--header-bg) 0%, #2c5282 100%);
+        }
+
+        .institution-header-content,
+        .header-content-inner,
+        .nav-container,
+        .main-card {
+            width: calc(100% - var(--left-margin) * 2);  /* 统一宽度 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin-left: 0;
+            margin-right: 0;
+            box-sizing: border-box;
+        }
+
+        .institution-header-content {
+            width: calc(100% - var(--left-margin) * 2);  /* 使用与其他内容相同的宽度计算 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;  /* 居中对齐 */
+            padding: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .institution-header-content span:first-child {
+            margin-left: 0;  /* 移除额外的左边距 */
+            padding-left: 0;
+        }
+
+        .institution-header-content span,
+        .logo-title,
+        nav ul li:first-child {
+            margin-right: 0;
+            padding-right: 0;
+        }
+
+        .institution-header a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0;  /* 移除所有边距 */
+            padding: 0;  /* 移除所有内边距 */
+        }
+
+        /* 修改标题区域容器样式 */
+        .header-content {
+            width: 100%;
+            max-width: var(--content-width);
+            margin: 0 auto;
+            padding: 20px 0;
+            position: relative;
+            background-color: transparent;
+        }
+
+        /* 修改内容容器样式 */
+        .header-content-inner {
+            width: calc(100% - var(--left-margin) * 2);
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 修改标题样式 */
+        .logo-title {
+            margin-left: 0;
+            text-align: left;
+        }
+
+        .logo-title h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        .logo-title p {
+            margin: 5px 0 0 0;
+            font-size: 24px;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            width: 100%;
+            padding: 8px 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 修改导航栏容器样式 */
+        nav .nav-container {
+            width: calc(100% - var(--left-margin) * 2);
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin: 0 auto;
+            padding: 0;
+            position: relative;
+        }
+
+        /* 修改导航列表样式 */
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 0;
+            margin-left: 0;  /* 使用与机构标题相同的左边距 */
+        }
+
+        /* 修改第一个导航项的样式 */
+        nav ul li:first-child {
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        /* 修改导航项样式 */
+        nav ul li a {
+            padding: 8px 0;  /* 减小内边距到最小 */
+            font-size: 13px;
+            display: block;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            background: transparent;
+        }
+
+        /* 保持活动状态和悬停状态的样式 */
+        nav ul li a:hover,
+        nav ul li a.active {
+            padding: 8px 3px;
+            color: var(--text-light);
+            background-color: var(--header-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-bottom: 5px solid var(--text-light);
+            padding-bottom: 6px;
+            font-weight: 700;  /* 保持加粗 */
+        }
+
+        /* 主内样式 */
+        main {
+            width: var(--content-width);
+            margin: 0 auto;
+            position: relative;
+            padding: 20px 0;
+            background-color: transparent;  /* 移除背景色 */
+        }
+
+        /* 幻灯片区域 */
+        .slider-container {
+            width: calc(100% - var(--left-margin) * 2);  /* 统一内容区域宽度 */
+            margin-left: 0;
+            margin-bottom: 30px;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            height: 500px;  /* 增加高度 */
+            background: #f5f5f5;  /* 添加背景色 */
+        }
+
+        .slides {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;  /* 添加性布局 */
+            justify-content: center;  /* 水平居中 */
+            align-items: center;  /* 垂直居 */
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 1;  /* 确保活动的幻灯片在最上层 */
+        }
+
+        .slide img {
+            max-width: 100%;  /*  */
+            max-height: 100%;  /* 修改为最大 */
+            object-fit: contain;  /* 修改为包含模式 */
+            border-radius: 8px;
+        }
+
+        /* 播按样式 */
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            color: #333;
+            transition: background 0.3s ease;
+        }
+
+        .slider-button:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        /* 轮播指示器样式 */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: white;
+        }
+
+        /* 简介部分 */
+        .intro {
+            margin-left: var(--left-margin);  /* 统一使用相同的左边距 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);  /* 控制内容宽度 */
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            line-height: 1.8;
+            margin-top: 30px;
+        }
+
+        /* 研究方向部分 */
+        #research {
+            margin-left: 0;  /* 统一使用相同的左边距 */
+        }
+
+        #research h2 {
+            margin-top: 30px;
+            color: var(--text-dark);
+        }
+
+        #research ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #research li {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        #research li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 课题组动态部分 */
+        #news {
+            margin-left: 0;  /* 统一使用相同的边距 */
+        }
+
+        #news h2 {
+            margin-top: 30px;
+            color: var(--text-dark);
+        }
+
+        .news-list {
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);  /* 控制内容宽度 */
+        }
+
+        .news-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .news-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-item .date {
+            color: #666;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .news-item p {
+            margin: 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .more-news {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--link-hover);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .more-news:hover {
+            background: #1e4b94;
+        }
+
+        /* 移除两侧黑色景 */
+        header {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        /* 确保所有内容区域都是透明背景 */
+        header, nav, main {
+            background: transparent;
+        }
+
+        /* 保持导航栏背景 */
+        nav {
+            background: white;
+        }
+
+        /* 添加分隔符样式 */
+        .institution-header-content span + span::before {
+            content: '|';
+            color: var(--text-light);  /* 白色 */
+            margin: 0 8px;  /* 两边留点空间 */
+            opacity: 0.8;   /* 稍微透明一点 */
+        }
+
+        /* 调整 span 的样式确保对齐 */
+        .institution-header-content span {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* 添加导航分隔符式 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0;  /* 除隔的边距 */
+            padding: 0;  /* 移除内边距 */
+            opacity: 0.5;
+        }
+
+        /* 微航项的样式以适应分隔符 */
+        nav ul li {
+            display: flex;
+            align-items: center;
+            margin: 0;  /* 移除所有外边距 */
+            padding: 0 2px;  /* 只保留最小的左右内边距 */
+            white-space: nowrap;
+        }
+
+        /* 调整导航分隔符间距 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0;  /* 移除外边距 */
+            padding: 0;  /* 移除内边距 */
+            opacity: 0.5;
+        }
+
+        /* 调器式 */
+        nav ul {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 0;  /* 移除项目之间的间 */
+        }
+
+        /* 调整导航项样式 */
+        nav ul li {
+            display: flex;
+            align-items: center;
+            margin: 0;  /* 移除所有外边距 */
+            padding: 0 2px;  /* 只保留最小的左右内边距 */
+            white-space: nowrap;
+        }
+
+        /* 统一左对齐和间距 */
+        .institution-header-content span:first-child,
+        .logo-title,
+        nav ul li:first-child,
+        .slider-container,
+        .intro,
+        #research,
+        #news {
+            margin-left: 0;  /* 统一使用相同的左边距 */
+        }
+
+        /* 调整导航栏样式 */
+        nav {
+            width: 100%;
+            margin: 0;
+            padding: 8px 0;
+            /* background: rgba(13, 85, 119, 0.95);  稍微调整透明度 */
+            background: transparent;
+        }
+
+        /* 调整导航项间距 */
+        nav ul li + li::before {
+            content: '|';
+            color: rgba(0, 0, 0, 0.2);
+            margin: 0 8px;  /* 统一分隔符间距 */
+            opacity: 0.5;
+        }
+
+        nav ul li a {
+            padding: 8px 12px;  /* 边 */
+            font-size: 14px;
+            background: transparent;  /* 移除单个项目的背景 */
+        }
+
+        /* 调整内容区域宽度 */
+        .slider-container,
+        .intro,
+        .news-list {
+            width: calc(100% - var(--left-margin) * 2);  /* 统一内容区域宽度 */
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+        }
+
+        /* 统一标题样式 */
+        .logo-title h1,
+        #research h2,
+        #news h2 {
+            font-size: 28px;  /* 统一标题大小 */
+            margin-bottom: 20px;  /* 统一下边距 */
+        }
+
+        /* 统一卡片样式 */
+        .intro,
+        #research li,
+        .news-item {
+            background: rgba(255, 255, 255, 0.95);  /* 统一背景透明度 */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;  /* 下 */
+        }
+
+        /* 添加主片容器样式 */
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            padding: 30px;
+            width: calc(100% - var(--left-margin) * 2);
+            max-width: calc(var(--content-width) - var(--left-margin) * 2);
+            margin-left: var(--left-margin);
+        }
+
+        /* 调整内部内容的样式 */
+        .main-card .slider-container {
+            margin-left: 0;  /* 移除边距，因为已经被卡片包含 */
+            width: 100%;     /* 占满卡片宽度 */
+            max-width: 100%;
+        }
+
+        .main-card .intro,
+        .main-card #research,
+        .main-card #news {
+            margin-left: 0;  /* 移除左边距 */
+            max-width: 100%;
+            background: transparent;  /* 移除内部卡片的背景色 */
+            box-shadow: none;        /* 移除内部卡片的阴影 */
+        }
+
+        /* 调整内部分隔样式 */
+        .main-card section {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);  /* 添加分隔线 */
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+
+        .main-card section:last-child {
+            border-bottom: none;  /* 最后一个部分不要分隔线 */
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        /* 确保页面容器不影响对齐 */
+        .page-container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* 确保页面容器不影响标题区域 */
+        .page-container {
+            position: relative;
+            overflow-x: hidden;  /* 防止水滚动 */
+        }
+
+        /* 论文发表分样式 */
+        .publication-header {
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .publication-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: #00b300;
+        }
+
+        .publication-header h2 {
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .publication-header .en {
+            color: #00b300;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .publication-header .zh {
+            color: #1e3f66;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .year-section {
+            margin-bottom: 40px;
+        }
+
+        .year-section h3 {
+            color: #1e3f66;
+            font-size: 32px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .publication-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;  /* 移除间距 */
+            background: transparent;  /* 改为透明背景 */
+        }
+
+        .publication-item {
+            display: flex;
+            gap: 20px;
+            padding: 0 15px;
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .publication-item:hover {
+            background: rgba(30, 63, 102, 0.03);
+            padding-left: 20px;
+        }
+
+        .publication-item:hover::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #1e3f66;
+        }
+
+        .publication-item:hover .pub-index {
+            color: #1e3f66;
+            transform: scale(1.1);
+        }
+
+        .pub-index {
+            color: #1e3f66;
+            font-size: 24px;
+            font-weight: bold;
+            min-width: 30px;
+            padding-right: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .publication-item:hover .pub-title {
+            color: #1e3f66;
+        }
+
+        .pdf-link {
+            color: #1e3f66;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .pdf-link:hover {
+            color: #00b300;
+            text-decoration: none;
+        }
+
+        .publication-content {
+            display: flex;
+            gap: 40px;
+            position: relative;
+        }
+
+        .year-nav {
+            width: 100px;
+            position: sticky;
+            top: 20px;
+            align-self: flex-start;
+        }
+
+        .year-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .year-nav li {
+            margin-bottom: 10px;
+        }
+
+        .year-link {
+            display: block;
+            padding: 8px 15px;
+            color: #666;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .year-link:hover {
+            color: #1e3f66;
+            background: rgba(30, 63, 102, 0.1);
+        }
+
+        .year-link.active {
+            color: #1e3f66;
+            background: rgba(30, 63, 102, 0.1);
+            font-weight: bold;
+        }
+
+        .publication-main {
+            flex: 1;
+        }
+
+        /* 整年份标题样式 */
+        .year-section h3 {
+            margin-top: 0;
+        }
+
+        /* 确保主内容区有足够的空间 */
+        .main-card {
+            padding: 40px;
+        }
+
+        /* 整section间间距 */
+        .main-card section {
+            margin-bottom: 60px;  /* 增加section之间的距 */
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .main-card section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        /* 添加标题容器样式 */
+        .headers-container {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-bottom: 40px;
+            position: relative;
+            width: 100%;
+        }
+
+        /* 修改标题样式 */
+        .publication-header {
+            text-align: center;
+            position: relative;
+            flex: 0 0 auto;
+            min-width: 160px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.5;  /* 默认状态下半透明 */
+        }
+
+        /* 活动状态的标题 */
+        .publication-header.active {
+            opacity: 1;  /* 活动状态下完全不透明 */
+        }
+
+        /* 修改标题下方的绿色横线式 */
+        .publication-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: #00b300;
+            transition: all 0.3s ease;
+            opacity: 0;  /* 默认隐藏横线 */
+        }
+
+        /* 活动状态下显示横 */
+        .publication-header.active::after {
+            opacity: 1;
+        }
+
+        /* 悬停效果 */
+        .publication-header:hover {
+            opacity: 0.8;  /* 悬停时的透明度 */
+        }
+
+        .publication-header.active:hover {
+            opacity: 1;  /* 活动状态下悬停保持完全不透明 */
+        }
+
+        /* 调整英文标题样式 */
+        .publication-header .en {
+            color: #00b300;
+            font-size: 24px;
+            font-weight: normal;
+            margin: 0;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        /* 调整中文标题样式 */
+        .publication-header .zh {
+            color: #1e3f66;
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        /* 内容区域的基本样式 */
+        .content-section {
+            display: none;  /* 默认隐藏所有容 */
+        }
+
+        .content-section.active {
+            display: block;  /* 显示激活的内容 */
+        }
+
+        /* 专利列表样式 */
+        .patent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .patent-item {
+            display: flex;
+            gap: 20px;
+            padding: 0 15px;
+            background: transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        /* 项目列表样式 */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .project-item {
+            display: flex;
+            gap: 20px;
+            padding: 0 15px;
+            background: transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        /* 专利和项目列表的共同样式 */
+        .patent-item, .project-item {
+            display: flex;
+            gap: 20px;
+            padding: 0 15px;
+            background: transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        /* 序号样式 */
+        .patent-index, .project-index {
+            color: #1e3f66;
+            font-size: 24px;
+            font-weight: bold;
+            min-width: 30px;
+            padding-right: 10px;
+            transition: all 0.2s ease;
+        }
+
+        /* 内容样式 */
+        .patent-content, .project-content {
+            flex: 1;
+        }
+
+        /* 标题样式 */
+        .patent-title, .project-title {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 2px;
+            line-height: 1.3;
+        }
+
+        /* 作者和信息样式 */
+        .patent-authors, .patent-info,
+        .project-leader, .project-period {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        /* 悬效果 */
+        .patent-item:hover, .project-item:hover {
+            background: rgba(30, 63, 102, 0.03);
+            padding-left: 20px;
+        }
+
+        .patent-item:hover::before, .project-item:hover::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #1e3f66;
+        }
+
+        /* 专利条目样式 */
+        .patent-item {
+            display: flex;
+            gap: 20px;
+            padding: 0 15px;
+            background: transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        /* 专利标题样式 */
+        .patent-title {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        /* 专利信息容器样式 */
+        .patent-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;  /* 行间距8px，列间距16px */
+            color: #666;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        /* 专利信息各项样式 */
+        .patent-info span {
+            white-space: nowrap;  /* 防止内容换行 */
+        }
+
+        /* PDF链接样式 */
+        .patent-info .pdf {
+            margin-left: auto;  /* 将PDF链接推到最右边 */
+        }
+
+        .patent-info .pdf-link {
+            color: #1e3f66;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .patent-info .pdf-link:hover {
+            color: #00b300;
+        }
+
+        /* 悬停效果 */
+        .patent-item:hover {
+            background: rgba(30, 63, 102, 0.03);
+            padding-left: 20px;
+        }
+
+        .patent-item:hover::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #1e3f66;
+        }
+
+        /* 项目条目样式 */
+        .project-item {
+            display: flex;
+            gap: 20px;
+            padding: 0 15px;
+            background: transparent;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        /* 项目标题样式 */
+        .project-title {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        /* 项目信息容器样 */
+        .project-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;  /* 行间距8px，列间距16px */
+            color: #666;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        /* 项目信息各项样式 */
+        .project-info span {
+            white-space: nowrap;  /* 防止内容换行 */
+        }
+
+        /* PDF链接样式 */
+        .project-info .pdf {
+            margin-left: auto;  /* 将PDF链接推到最右边 */
+        }
+
+        .project-info .pdf-link {
+            color: #1e3f66;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .project-info .pdf-link:hover {
+            color: #00b300;
+        }
+                .logo-title {
+    position: relative; /* 为了让内部的伪元素基于它定位 */
+    padding-left: 50px; /* 预留空间给logo，根据logo实际大小调整该值 */
+}
+.logo-title {
+    position: relative; /* 为了让内部的伪元素基于它定位 */
+    padding-left: 50px; /* 预留空间给logo，根据logo实际大小调整该值 */
+}
+.logo-title::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%); /* 垂直居中 */
+    background-image: url(icons/logo.jpg); /* logo图片路径 */
+    background-size: contain; /* 让图片按比例自适应，完整显示 */
+    background-repeat: no-repeat; /* 不重复显示图片 */
+    width: 50px; /* logo宽度，可按需调整 */
+    height: 50px; /* logo高度，可按需调整 */
+    display: block;
+}
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <img src="images/Body_Background.img" alt="背景图片">
+    </div>
+    
+    <div class="page-container">
+        <header>
+            <div class="institution-header">
+                <div class="institution-header-content">
+                    <span><a href="https://www.zjut.edu.cn/" target="_blank">浙江工业大学</a></span>
+                    <span><a href="https://ie.zjut.edu.cn/" target="_blank">信息工程学院</a></span>
+                </div>
+            </div>
+            <div class="header-content">
+                <div class="header-content-inner">
+                    <div class="logo-title">
+                     <h1 >感知与控制研究所 Institute of Perception and Control</h1>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <div class="nav-container">
+                    <ul>
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="publications.html" class="active">PUBLICATIONS</a></li>
+                        <li><a href="members.html">MEMBERS</a></li>
+                        <li><a href="services.html">SERVICES</a></li>
+                        <li><a href="news.html">NEWS</a></li>
+                        <li><a href="photos.html">PHOTOS</a></li>
+                        <li><a href="media.html">MEDIA</a></li>
+                        <li><a href="lab-only.html">LAB ONLY</a></li>
+                        <li><a href="contact.html">CONTACT</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <main>
+        <div class="main-card">
+            <div class="headers-container">
+                <div class="publication-header active" data-section="publication">
+                    <h2 class="en">Publication</h2>
+                    <h2 class="zh">论文发表</h2>
+                </div>
+                <div class="publication-header" data-section="patent">
+                    <h2 class="en">Patent</h2>
+                    <h2 class="zh">专利列表</h2>
+                </div>
+                <div class="publication-header" data-section="project">
+                    <h2 class="en">Project</h2>
+                    <h2 class="zh">科研项目</h2>
+                </div>
+            </div>
+
+            <div id="publication-content" class="content-section active">
+                <div class="publication-content">
+                    <div class="year-nav">
+                        <ul>
+                            <li><a href="#2024" class="year-link active">2024</a></li>
+                            <li><a href="#2023" class="year-link">2023</a></li>
+                            <li><a href="#2022" class="year-link">2022</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="publication-main">
+                        <div id="2024" class="year-section">
+                            <h3>2024</h3>
+                            <div class="publication-list">
+                                <div class="publication-item">
+                                    <div class="pub-index">1</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Shan Liu, Fanghong Guo, Xiang Wu, Changyun Wen, Ying Yang, Jiawei Chen
+                                        </div>
+                                        <div class="pub-title">
+                                            A Distributed Secure and Robust Power Management Framework for More Electric Aircraft
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Transportation Electrification ( Early Access ), 2024 [ <a href="https://ieeexplore.ieee.org/document/10433713" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">2</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            张文安, 林安迪, 杨旭升, 立, 杨小牛
+                                        </div>
+                                        <div class="pub-title">
+                                            融合深度学习的贝叶斯滤波综述
+                                        </div>
+                                        <div class="pub-venue">
+                                            自动化学报 2024, 50(08):1502-1516 [ <a href="http://www.aas.net.cn/cn/article/pdf/preview/10.16383/j.aas.c230457.pdf" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">3</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            郭方洪，林凯，窦云飞，吴祥，俞立
+                                        </div>
+                                        <div class="pub-title">
+                                            基于多维特征评价的风机齿轮箱早期故障诊断
+                                        </div>
+                                        <div class="pub-venue">
+                                            控制与决策 2024 [ <a href="http://kzyjc.alljournals.cn/kzyjc/article/abstract/2022-1388" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">4</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Lei Wang, Liu Weijia, Fanghong Guo, Zixin Qiao, Zhengguang Wu
+                                        </div>
+                                        <div class="pub-title">
+                                            Differentially private average consensus with improved accuracy-privacy trade-off
+                                        </div>
+                                        <div class="pub-venue">
+                                            Automatica, 167:111769, 2024 [ <a href="https://ieeexplore.ieee.org/document/10433685" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">5</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Fanghong Guo, Zhijie Lian, Zheng Xiangkang, Deng Chao, Wen Changyun, He Jinsong
+                                        </div>
+                                        <div class="pub-title">
+                                            Decentralized Cluster-Based Distributed Secondary Control of Large-Scale DC Microgrid Cluster System
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Sustainable Energy, 2024, 15(3):1652-1662 [ <a href="https://ieeexplore.ieee.org/document/10433685" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">6</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Fanghong Guo, Huang Zhen, Wu Jinhui, Li Zhuocheng, Liu Shan, Lantao Xing
+                                        </div>
+                                        <div class="pub-title">
+                                            Distributed Secondary Resilient Controller Design for Islanded AC Microgrids Under Stealthy Frequency Sensor Attack
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Circuits and Systems I: Regular Papers, 2024, pp. 1-12 [ <a href="https://ieeexplore.ieee.org/document/10591495" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">7</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Wu Qi, Dong Chen, Fanghong Guo, Lei Wang, Xiang Wu, Wen Changyun
+                                        </div>
+                                        <div class="pub-title">
+                                            Privacy-Preserving Federated Learning for Power Transformer Fault Diagnosis With Unbalanced Data
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Industrial Informatics, 2024, 20(4):5383-5394 [ <a href="https://ieeexplore.ieee.org/document/10337794" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">8</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Hao Zeng, Ye Zehua, Dan Zhang
+                                        </div>
+                                        <div class="pub-title">
+                                            Dynamic event-triggering-based distributed model predictive control of heterogeneous connected vehicle platoon under DoS attacks
+                                        </div>
+                                        <div class="pub-venue">
+                                            ISA Transactions, 2024, 153:1-12 [ <a href="https://www.sciencedirect.com/science/article/abs/pii/S0019057824003331" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">9</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Lv Xiaoqiu, Jun Cheng, Huaicheng Yan, Dan Zhang, Qi Wenhai
+                                        </div>
+                                        <div class="pub-title">
+                                            Probability-based event-triggered asynchronous control for fuzzy jump systems
+                                        </div>
+                                        <div class="pub-venue">
+                                            Information Sciences, 2024, 680:121167 [ <a href="https://www.sciencedirect.com/science/article/abs/pii/S0020025524010818" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">10</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Dan Zhang, Jiabin Hu, Jun Cheng, Zheng Guang Wu, Huaicheng Yan
+                                        </div>
+                                        <div class="pub-title">
+                                            A Novel Disturbance Observer Based Fixed-Time Sliding Mode Control for Robotic Manipulators With Global Fast Convergence
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE/CAA Journal of Automatica Sinica, 2024, 11(3):661-672 [ <a href="https://www.ieee-jas.net/article/doi/10.1109/JAS.2023.123948?viewType=HTML&pageType=en" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">11</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Liu Andong, Jiayun Fu, Shuwen Zhan, Zhehao Jin, Wen An Zhang
+                                        </div>
+                                        <div class="pub-title">
+                                            A Policy Searched-Based Optimization Algorithm for Obstacle Avoidance in Robot Manipulators
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Industrial Electronics, 2024, 71(9):11262-11271 [ <a href="https://ieeexplore.ieee.org/document/10380199" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">12</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Zhehao Jin, Liu Andong, Wen An Zhang, Li Yu, Yang Chenguang
+                                        </div>
+                                        <div class="pub-title">
+                                            Learning an Autonomous Dynamic System to Encode Periodic Human Motion Skills
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Neural Networks and Learning Systems, 2024, pp. 1-7 [ <a href="https://ieeexplore.ieee.org/document/10530433" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">13</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Dongdong Qin, Zhehao Jin, Liu Andong, Wen An Zhang, Li Yu
+                                        </div>
+                                        <div class="pub-title">
+                                            Asynchronous Event-Triggered Distributed Predictive Control for Multi-Agent Systems With Parameterized Synchronization Constraints
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Automatic Control, 2024, 69(1):403-409 [ <a href="https://ieeexplore.ieee.org/document/10089469" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">14</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Zhehao Jin, Liu Andong, Wen An Zhang, Li Yu, Yang Chenguang
+                                        </div>
+                                        <div class="pub-title">
+                                            Learning Stable State-Dependent Variable Impedance Control for Compliant Manipulation
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE/ASME Transactions on Mechatronics, 2024, pp. 1-12 [ <a href="https://ieeexplore.ieee.org/document/10718693" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">15</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Liu Andong, Shuwen Zhan, Zhehao Jin, Wen An Zhang
+                                        </div>
+                                        <div class="pub-title">
+                                            A Variable Impedance Skill Learning Algorithm Based on Kernelized Movement Primitives
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Industrial Electronics, 2024, 71(1):870-879 [ <a href="https://ieeexplore.ieee.org/document/10061475" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="publication-item">
+                                    <div class="pub-index">16</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Wu Mincheng, Chao Li, Shen Zhangchong, Shibo He, Lingling Tang, Zheng Jie, Fang Yi, Li Kehan, Yanggang Cheng, Shi Zhiguo
+                                        </div>
+                                        <div class="pub-title">
+                                            Use of temporal contact graphs to understand the evolution of COVID-19 through contact tracing data
+                                        </div>
+                                        <div class="pub-venue">
+                                            Communications Physics, 2024, 5(1) [ <a href="https://www.nature.com/articles/s42005-022-01045-4" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="2023" class="year-section">
+                            <h3>2023</h3>
+                            <div class="publication-list">
+                                <div class="publication-item">
+                                    <div class="pub-index">1</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Zhehao Jin, Weiyong Si, Liu Andong, Wen An Zhang, Li Yu, Yang Chenguang
+                                        </div>
+                                        <div class="pub-title">
+                                            Learning a Flexible Neural Energy Function With a Unique Minimum for Globally Stable and Accurate Demonstration Learning
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Robotics, 2023, 39(6):4520-4538 [ <a href="https://ieeexplore.ieee.org/abstract/document/10226460" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="publication-item">
+                                    <div class="pub-index">2</div>
+                                    <div class="pub-content">
+                                        <div class="pub-authors">
+                                            Dan Yu, Xiufang Shi, Chai Li, Wen An Zhang, Jiming Chen
+                                        </div>
+                                        <div class="pub-title">
+                                            Balancing Localization Accuracy and Location Privacy in Mobile Cooperative Localization
+                                        </div>
+                                        <div class="pub-venue">
+                                            IEEE Transactions on Signal Processing, 2023, 71:2804-2818 [ <a href="https://ieeexplore.ieee.org/document/10183888" class="pdf-link" target="_blank">PDF</a> ]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="patent-content" class="content-section">
+                <div class="publication-content">
+                    <div class="year-nav">
+                        <ul>
+                            <li><a href="#patent-2024" class="year-link active">2024</a></li>
+                            <li><a href="#patent-2023" class="year-link">2023</a></li>
+                            <li><a href="#patent-2022" class="year-link">2022</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="publication-main">
+                        <div id="patent-2024" class="year-section">
+                            <h3>2024</h3>
+                            <div class="patent-list">
+                                <div class="patent-item">
+                                    <div class="patent-index">1</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种基于逐步逼近原始轮廓的切割轮廓拟合优化方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 李华昌, 韩林贝, 吴祥, 彭宣聪, 仲济磊</span>
+                                            <span class="application">申请号：CN202010060844.0</span>
+                                            <span class="app-date">申请日期：2020-01-19</span>
+                                            <span class="grant-date">授权日期：2024-02-06</span>
+                                            <span class="patent-number">授权公告号：CN111310106B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                        </div>
+                        <div id="patent-2023" class="year-section">
+                            <h3>2023</h3>
+                            <div class="patent-list">
+                                <div class="patent-item">
+                                    <div class="patent-index">1</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种基于加速度平滑的工业机器人柔顺运动控制方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 段路雄, 吴祥, 方智勇, 林文杰, 黄光普, 宋斌, 刘悦</span>
+                                            <span class="application">申请号：CN202310602203.7</span>
+                                            <span class="app-date">申请日期：2023-05-26</span>
+                                            <span class="grant-date">授权日期：2023-09-01</span>
+                                            <span class="patent-number">授权公告号：CN116330299B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">2</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种自平衡机器人抗持续性外力作用的姿态控制方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 吴宇航, 田叮, 吴祥, 袁登鹏, 董浩, 陈重, 周俊阳</span>
+                                            <span class="application">申请号：CN202010435039.1</span>
+                                            <span class="app-date">申请日期：2020-05-21</span>
+                                            <span class="grant-date">授权日期：2023-08-29</span>
+                                            <span class="patent-number">授权公告号：CN111665838B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">3</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种应用于两轮移动机器人的激光雷达除畸变方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 袁登鹏, 董浩, 吴祥, 吴宇航, 童涛, 夏启剑, 周俊阳</span>
+                                            <span class="application">申请号：CN202010704463.1</span>
+                                            <span class="app-date">申请日期：2020-07-21</span>
+                                            <span class="grant-date">授权日期：2023-06-13</span>
+                                            <span class="patent-number">授权公告号：CN112083433B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">4</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种应用于两轮移动机器人的激光雷达除畸变方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 袁登鹏, 董浩, 吴祥, 吴宇航, 田叮, 童涛, 钱学成, 夏启剑</span>
+                                            <span class="application">申请号：CN202010060834.7</span>
+                                            <span class="app-date">申请日期：2020-01-19</span>
+                                            <span class="grant-date">授权日期：2023-06-13</span>
+                                            <span class="patent-number">授权公告号：CN111399500B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">5</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种可自由编程的智能手套机运动控制系统的示教方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 范永, 陈重, 吴祥, 俞立, 张文安, 郭方洪</span>
+                                            <span class="application">申请号：CN202110418494.5</span>
+                                            <span class="app-date">申请日期：2021-04-19</span>
+                                            <span class="grant-date">授权日期：2023-06-16</span>
+                                            <span class="patent-number">授权公告号：CN113220207B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">6</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种工件校直数据的滤波处理方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 付建伟, 彭宣聪, 张成祥, 唐旺山, 葛天飞, 吴宇航, 周祥清, 吴祥</span>
+                                            <span class="application">申请号：CN201911288707.6</span>
+                                            <span class="app-date">申请日期：2019-12-12</span>
+                                            <span class="grant-date">授权日期：2023-06-02</span>
+                                            <span class="patent-number">授权公告号：CN111193495B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">7</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种基于试凑粒子群混合算法的服装裁剪分床方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 林文杰, 毛小海, 俞立, 张文安</span>
+                                            <span class="application">申请号：CN201810888669.7</span>
+                                            <span class="app-date">申请日期：2018-08-07</span>
+                                            <span class="grant-date">授权日期：2023-04-18</span>
+                                            <span class="patent-number">授权公告号：CN109359313B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">8</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种基于BP神经网络的校直行程预测方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 彭宣聪, 付建伟, 唐旺山, 田叮, 张成祥, 吴祥</span>
+                                            <span class="application">申请号：CN201911157936.4</span>
+                                            <span class="app-date">申请日期：2019-11-22</span>
+                                            <span class="grant-date">授权日期：2023-04-07</span>
+                                            <span class="patent-number">授权公告号：CN111047002B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">9</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种便携式的多功能开关电路</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：董辉, 周俊阳, 敖文聪, 吴祥, 邹立, 童涛</span>
+                                            <span class="application">申请号：CN202010424949.X</span>
+                                            <span class="app-date">申请日期：2020-05-19</span>
+                                            <span class="grant-date">授权日期：2023-03-21</span>
+                                            <span class="patent-number">授权公告号：CN111669158B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="patent-item">
+                                    <div class="patent-index">10</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">一种基于相机与消费级IMU融合的低速无人车定位方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：张文安, 汪伟, 付明磊, 孙虎, 陆春校, 何军强</span>
+                                            <span class="application">申请号：CN202110619924.X</span>
+                                            <span class="app-date">申请日期：2021-06-03</span>
+                                            <span class="grant-date">授权日期：2024-04-12</span>
+                                            <span class="patent-number">授权公告号：CN112084866B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="patent-2022" class="year-section">
+                            <h3>2022</h3>
+                            <div class="patent-list">
+                                <div class="patent-item">
+                                    <div class="patent-index">1</div>
+                                    <div class="patent-content">
+                                        <div class="patent-title">基于CMS系统大数据结合标准差及小波熵的风力发电机组齿轮箱故障定位方法</div>
+                                        <div class="patent-info">
+                                            <span class="inventors">发明人：张文安, 黄大建, 顾曹源, 徐博文, 郭方洪, 朱俊威, 刘伟江, 史晓鸣</span>
+                                            <span class="application">申请号：CN202010419452.9</span>
+                                            <span class="app-date">申请日期：2020-05-18</span>
+                                            <span class="grant-date">授权日期：2022-04-08</span>
+                                            <span class="patent-number">授权公告号：CN111721527B</span>
+                                            <span class="applicant">申请人：浙江工业大学</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="project-content" class="content-section">
+                <div class="publication-content">
+                    <div class="year-nav">
+                        <ul>
+                            <li><a href="#project-2024" class="year-link active">2024</a></li>
+                            <li><a href="#project-2023" class="year-link">2023</a></li>
+                            <li><a href="#project-2022" class="year-link">2022</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="publication-main">
+                        <!-- 先放2024年度的项目条目 -->
+                        <div id="project-2024" class="year-section">
+                            <h3>2024</h3>
+                            <div class="project-list">
+                                <div class="project-item">
+                                    <div class="project-index">1</div>
+                                    <div class="project-content">
+                                        <div class="project-title">典型工业过程虚实混合多模态信息融合、分析与决策（主持：史秀纺）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：国家自然科学基金项目-区域创新发展联合基金-重点</span>
+                                            <span class="project-number">项目编号：</span>
+                                            <span class="project-period">执行期：2024-</span>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">2</div>
+                                    <div class="project-content">
+                                        <div class="project-title">基于泛在机会信号融合的广域无缝定位理论及关键技术研究（主持：史秀纺）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：国家自然科学基金项目-面上项目</span>
+                                            <span class="project-number">项目编号：</span>
+                                            <span class="project-period">执行期：2024-</span>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 在2024和2022年度项目之间添加2023年度的项目条目 -->
+                        <div id="project-2023" class="year-section">
+                            <h3>2023</h3>
+                            <div class="project-list">
+                                <div class="project-item">
+                                    <div class="project-index">1</div>
+                                    <div class="project-content">
+                                        <div class="project-title">网络化运动控制系统智能感知与协同控制（主持：张丹）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：国家自然科学基金项目-优青项目</span>
+                                            <span class="project-number">项目编号：</span>
+                                            <span class="project-period">执行期：2023-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">2</div>
+                                    <div class="project-content">
+                                        <div class="project-title">面向复杂工件检测与分拣的智能机器人及其示范应用（主持：张文安）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：浙江省科技计划项目-重点研发-尖兵领雁项目</span>
+                                            <span class="project-number">项目编号：</span>
+                                            <span class="project-period">执行期：2023-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">3</div>
+                                    <div class="project-content">
+                                        <div class="project-title">优秀文化沉浸式实景展演服务关键技术研究与应用（主持：倪洪杰）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：浙江省科技计划项目-重点研发-尖兵领雁项目</span>
+                                            <span class="project-number">项目编号：</span>
+                                            <span class="project-period">执行期：2023-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">4</div>
+                                    <div class="project-content">
+                                        <div class="project-title">中国传统书画专用纸精准制备及专用设备研制（主持：倪洪杰）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：国家重点研发计划课题</span>
+                                            <span class="project-number">项目编号：</span>
+                                            <span class="project-period">执行期：2023-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">5</div>
+                                    <div class="project-content">
+                                        <div class="project-title">军工JG-XX-2024010（主持：董辉）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：军工A类</span>
+                                            <span class="project-number">项目编号：JG-XX-2024010</span>
+                                            <span class="project-period">执行期：2023-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">6</div>
+                                    <div class="project-content">
+                                        <div class="project-title">军工JG-XX-2024001（主持：张文安）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：军工B类</span>
+                                            <span class="project-number">项目编号：JG-XX-2024001</span>
+                                            <span class="project-period">执行期：2023-</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 然后是2022年度的项目条目 -->
+                        <div id="project-2022" class="year-section">
+                            <h3>2022</h3>
+                            <div class="project-list">
+                                <div class="project-item">
+                                    <div class="project-index">1</div>
+                                    <div class="project-content">
+                                        <div class="project-title">多传感器系统的可信融合估计（主持：张文安）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：国家自然科学基金-面上项目</span>
+                                            <span class="project-number">项目编号：62173305</span>
+                                            <span class="project-period">执行期：2022-2025</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">2</div>
+                                    <div class="project-content">
+                                        <div class="project-title">网络化多机器人系统安全协同控制研究（主持：张丹）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：浙江省自然科学基金杰出青年项目</span>
+                                            <span class="project-number">项目编号：LR22F030003</span>
+                                            <span class="project-period">执行期：2022-2024</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">3</div>
+                                    <div class="project-content">
+                                        <div class="project-title">基于无监督学习模型的移动机器人视觉里程计及其高性能硬件加速单元研究（主持：付明磊）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：国家自然科学基金地区基金项目</span>
+                                            <span class="project-number">项目编号：62111530299</span>
+                                            <span class="project-period">执行期：2022-2023</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-item">
+                                    <div class="project-index">4</div>
+                                    <div class="project-content">
+                                        <div class="project-title">竞技运动的智能融合检测和评估系统（主持：杨旭升）</div>
+                                        <div class="project-info">
+                                            <span class="project-type">项目类型：浙江省科技计划项目-重点研发项目子项目</span>
+                                            <span class="project-number">项目编号：2022C03114</span>
+                                            <span class="project-period">执行期：2022-2024</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             </div>
+    </main>
+
+    <footer>
+        <p>© 2024 感知与控制研究所 版权所有</p>
+            <a href="https://beian.miit.gov.cn">浙ICP备2024139455号-1</a>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            const totalSlides = slides.length;
+
+            function showSlide(n) {
+                // 处理界情况
+                if (n >= totalSlides) {
+                    currentSlide = 0;
+                } else if (n < 0) {
+                    currentSlide = totalSlides - 1;
+                } else {
+                    currentSlide = n;
+                }
+
+                // 隐藏所有幻灯片
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                    slide.style.display = 'none';
+                });
+                dots.forEach(dot => dot.classList.remove('active'));
+
+                // 显示当前幻灯片
+                slides[currentSlide].style.display = 'flex';
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+
+            // 自动轮播
+            let slideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+
+            // 按钮点击事件
+            document.querySelector('.prev').addEventListener('click', () => {
+                clearInterval(slideInterval);  // 清除自动轮播
+                showSlide(currentSlide - 1);
+                // 重新始自动轮播
+                slideInterval = setInterval(() => {
+                    showSlide(currentSlide + 1);
+                }, 5000);
+            });
+
+            document.querySelector('.next').addEventListener('click', () => {
+                clearInterval(slideInterval);  // 清除自动轮播
+                showSlide(currentSlide + 1);
+                // 重开始自动轮播
+                slideInterval = setInterval(() => {
+                    showSlide(currentSlide + 1);
+                }, 5000);
+            });
+
+            // 指示器点击事
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    clearInterval(slideInterval);  // 清除自动轮播
+                    showSlide(index);
+                    // 新始自动轮播
+                    slideInterval = setInterval(() => {
+                        showSlide(currentSlide + 1);
+                    }, 5000);
+                });
+            });
+
+            // 初始化显示第一张
+            showSlide(0);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const headers = document.querySelectorAll('.publication-header');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    // 移除所有标题的活动状态
+                    headers.forEach(h => h.classList.remove('active'));
+                    // 添加当前点击标题的活动状态
+                    this.classList.add('active');
+                    
+                    // 获对应的内容区域
+                    const sectionId = this.dataset.section + '-content';
+                    
+                    // 隐藏所有内容
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // 显示对应的内容
+                    document.getElementById(sectionId).classList.add('active');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取所有年份导航链接
+            const yearLinks = document.querySelectorAll('.year-link');
+            
+            // 为每个年份链接添加点击事件监听器
+            yearLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault(); // 阻止默认的锚点跳转行为
+                    
+                    // 移除所有年份链接的活跃状态
+                    yearLinks.forEach(yl => yl.classList.remove('active'));
+                    
+                    // 为当前点击的年份链接添加活跃状态
+                    this.classList.add('active');
+                    
+                    // 获取目标年份区域的ID（去掉#号）
+                    const targetId = this.getAttribute('href').substring(1);
+                    
+                    // 滚动到目标年份区域
+                    document.getElementById(targetId).scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
+</html> 
