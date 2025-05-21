@@ -1,0 +1,17 @@
+[build]
+  publish = "./"
+  command = "# no build command"
+
+# 这些重定向和头部设置对于Decap CMS正常工作是必需的
+[[redirects]]
+  from = "/admin/*"
+  to = "/admin/index.html"
+  status = 200
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    # 允许来自unpkg的CMS脚本和netlify身份验证
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://identity.netlify.com; connect-src 'self' https://api.netlify.com; img-src 'self' data: https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; frame-src https://identity.netlify.com" 
