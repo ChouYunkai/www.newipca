@@ -2,22 +2,89 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "images/news_images"
-public_folder: "/images/news_images"
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+# 简体中文界面
+locale: 'zh_Hans'
 
 collections:
-  - name: "news"
-    label: "最新动态"
-    label_singular: "动态"
-    folder: "news"
+  # 幻灯片管理
+  - name: "slides"
+    label: "首页幻灯片"
+    folder: "content/slides"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
-    extension: "md"
     fields:
-      - { label: "标题", name: "title", widget: "string" }
-      - { label: "封面图片", name: "image", widget: "image", required: true, hint: "上传新闻配图" }
-      - { label: "图片描述", name: "alt", widget: "string", required: false, hint: "图片alt属性" }
-      - { label: "来源", name: "source", widget: "string" }
-      - { label: "时间", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
-      - { label: "外部链接", name: "link", widget: "string", required: true, hint: "新闻详情跳转链接" }
-      - { label: "正文", name: "body", widget: "markdown", required: false } 
+      - {label: "标题", name: "title", widget: "string"}
+      - {label: "图片", name: "image", widget: "image"}
+      - {label: "来源", name: "source", widget: "string"}
+      - {label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD"}
+      - {label: "排序", name: "order", widget: "number", default: 1}
+      - {label: "是否显示", name: "display", widget: "boolean", default: true}
+
+  # 新闻动态管理
+  - name: "news"
+    label: "最新动态"
+    folder: "content/news"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "标题", name: "title", widget: "string"}
+      - {label: "封面图片", name: "image", widget: "image"}
+      - {label: "图片描述", name: "alt", widget: "string", required: false}
+      - {label: "来源", name: "source", widget: "string"}
+      - {label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD"}
+      - {label: "外部链接", name: "link", widget: "string", required: false}
+      - {label: "正文内容", name: "body", widget: "markdown", required: false}
+      - {label: "首页显示", name: "featured", widget: "boolean", default: false}
+      - {label: "排序", name: "order", widget: "number", default: 1}
+
+  # 研究成员管理
+  - name: "members"
+    label: "研究成员"
+    folder: "content/members"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "姓名", name: "name", widget: "string"}
+      - {label: "职称/职位", name: "title", widget: "string"}
+      - {label: "照片", name: "photo", widget: "image"}
+      - {label: "邮箱", name: "email", widget: "string", required: false}
+      - {label: "个人网站", name: "website", widget: "string", required: false}
+      - {label: "研究方向", name: "research", widget: "markdown"}
+      - {label: "简介", name: "body", widget: "markdown"}
+      - {label: "排序", name: "order", widget: "number", default: 99}
+      - {label: "类型", name: "type", widget: "select", options: ["教师", "博士生", "硕士生", "本科生", "校友"]}
+
+  # 研究方向管理
+  - name: "research"
+    label: "研究方向"
+    folder: "content/research"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "名称", name: "title", widget: "string"}
+      - {label: "描述", name: "body", widget: "markdown"}
+      - {label: "排序", name: "order", widget: "number", default: 1}
+
+  # 页面管理
+  - name: "pages"
+    label: "页面管理"
+    files:
+      - label: "联系我们"
+        name: "contact"
+        file: "content/pages/contact.md"
+        fields:
+          - {label: "标题", name: "title", widget: "string"}
+          - {label: "地址", name: "address", widget: "string"}
+          - {label: "电话", name: "phone", widget: "string"}
+          - {label: "电子邮件", name: "email", widget: "string"}
+          - {label: "页面内容", name: "body", widget: "markdown"}
+      
+      - label: "关于我们"
+        name: "about"
+        file: "content/pages/about.md"
+        fields:
+          - {label: "标题", name: "title", widget: "string"}
+          - {label: "页面内容", name: "body", widget: "markdown"} 
