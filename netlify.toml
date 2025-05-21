@@ -14,4 +14,4 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     # 允许来自unpkg的CMS脚本和netlify身份验证
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://identity.netlify.com; connect-src 'self' https://api.netlify.com; img-src 'self' data: https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; frame-src https://identity.netlify.com" 
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://identity.netlify.com; connect-src 'self' https://api.netlify.com; img-src 'self' data: https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com; frame-src https://identity.netlify.com" 
