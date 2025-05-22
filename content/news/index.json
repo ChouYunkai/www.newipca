@@ -1,0 +1,59 @@
+[
+  {
+    "title": "121",
+    "category": "academic",
+    "image": "/images/uploads/人物-团队.jpg",
+    "alt": "1231",
+    "source": "123123",
+    "date": "2025-05-21T00:00:00.000Z",
+    "link": "1231",
+    "featured": true,
+    "academic_featured": true,
+    "order": 1,
+    "body": "5231",
+    "slug": "2025-05-21-121-3",
+    "path": "C:\\zixel\\frontend\\5.20project\\www.newipc-zjut.com\\content\\news\\2025-05-21-121-3.md"
+  },
+  {
+    "alt": "1231",
+    "academic_featured": true,
+    "featured": true,
+    "title": "121",
+    "category": "academic",
+    "image": "/images/uploads/graduation-cap.jpg",
+    "source": "123123",
+    "date": "2025-05-21T00:00:00.000Z",
+    "link": "1231",
+    "order": 1,
+    "body": "3123123123123123",
+    "slug": "2025-05-21-121",
+    "path": "C:\\zixel\\frontend\\5.20project\\www.newipc-zjut.com\\content\\news\\2025-05-21-121.md"
+  },
+  {
+    "title": "121",
+    "category": "institute",
+    "image": "/images/uploads/人物-团队.jpg",
+    "alt": "1231",
+    "source": "123123",
+    "date": "2025-05-21T00:00:00.000Z",
+    "link": "1231",
+    "featured": true,
+    "order": 1,
+    "body": "5231",
+    "slug": "2025-05-22-121",
+    "path": "C:\\zixel\\frontend\\5.20project\\www.newipc-zjut.com\\content\\news\\2025-05-22-121.md"
+  },
+  {
+    "title": "示例新闻标题",
+    "category": "home",
+    "image": "/images/uploads/人物-团队.jpg",
+    "source": "管理员",
+    "date": "2025-05-21T00:00:00.000Z",
+    "featured": true,
+    "academic_featured": true,
+    "order": 1,
+    "body": "这是一条示例新闻内容，您可以通过CMS系统编辑此内容。",
+    "slug": "example-news",
+    "path": "C:\\zixel\\frontend\\5.20project\\www.newipc-zjut.com\\content\\news\\example-news.md"
+  }
+]

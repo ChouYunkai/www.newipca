@@ -1226,45 +1226,14 @@ footer a:hover {
             <section id="slider">
                 <div class="slider-container">
                     <div class="slides">
-                        <div class="slide active">
-                            <img src="images/home_images/conference1.jpg" alt="幻灯片1">
-                            <div class="slide-caption">
-                                <h3>"数字感知文化·交易引领未来"--感知与控制研究所党支部与浙江文化产权交易所党支部开展党建联建活动</h3>
-                                <div class="slide-info">
-                                    <span class="slide-source">学院党委</span>
-                                    <span class="slide-time">2024-12-18</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <img src="images/home_images/tcct2024.jpg" alt="幻灯片3">
-                            <div class="slide-caption">
-                                <h3>2024年度 TCCT网络化控制系统专题研讨会</h3>
-                                <div class="slide-info">
-                                    <span class="slide-source">TCCT网络化控制系统学组</span>
-                                    <span class="slide-time">2024-11-16</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <img src="images/home_images/dd18.jpg" alt="幻灯片2">
-                            <div class="slide-caption">
-                                <h3>第18届浙江省高校自动化类专业院长、系主任论坛顺利召开</h3>
-                                <div class="slide-info">
-                                    <span class="slide-source">自动化系主任论坛</span>
-                                    <span class="slide-time">2024-11-13</span>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- 幻灯片内容将由CMS系统动态加载 -->
                     </div>
                     <!-- 导航按钮 -->
                     <button class="slider-nav prev" onclick="changeSlide(-1)">&lt;</button>
                     <button class="slider-nav next" onclick="changeSlide(1)">&gt;</button>
                     <!-- 指示器 -->
                     <div class="slider-dots">
-                        <span class="dot active" onclick="goToSlide(0)"></span>
-                        <span class="dot" onclick="goToSlide(1)"></span>
-                        <span class="dot" onclick="goToSlide(2)"></span>
+                        <!-- 指示器内容将由CMS系统动态加载 -->
                     </div>
                 </div>
             </section>
@@ -1272,7 +1241,7 @@ footer a:hover {
             <section id="news">
                 <h2>最新动态/News</h2>
                 <div class="news-list">
-                    <a href="https://mp.weixin.qq.com/s/Aq-aP21595RzNSpU0GptxQ" target="_blank" rel="noopener noreferrer" class="news-item">
+                    /* <a href="https://mp.weixin.qq.com/s/Aq-aP21595RzNSpU0GptxQ" target="_blank" rel="noopener noreferrer" class="news-item">
                         <div class="news-image">
                             <img src="images/news_images/JinZheHao.jpg" alt="我院24届博士毕业生金哲豪入选欧盟"玛丽·居里学者"人才计划">
                         </div>
@@ -1451,8 +1420,8 @@ footer a:hover {
                                 <span class="news-time">2022-12-09</span>
                             </div>
                         </div>
-                    </a>
-                </div>
+                    </a>*/
+                </div> 
                 <a href="news.html" class="more-news">更多动态 >></a>
             </section>
         </div>
@@ -1482,8 +1451,8 @@ footer a:hover {
     
         // 修改幻灯片切换逻辑
         let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.dot');
+        let slides = document.querySelectorAll('.slide');
+        let dots = document.querySelectorAll('.dot');
         let slideInterval;
 
         function showSlide(index) {
@@ -1496,18 +1465,26 @@ footer a:hover {
 
             // 移除当前幻灯片的active类
             slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
+            if (dots[currentSlide]) {
+                dots[currentSlide].classList.remove('active');
+            }
 
             // 更新当前幻灯片索引
             currentSlide = index;
 
             // 添加新幻灯片的active类
             slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
+            if (dots[currentSlide]) {
+                dots[currentSlide].classList.add('active');
+            }
         }
 
         // 自动播放
         function startAutoSlide() {
+            // 清除现有的定时器
+            if (slideInterval) {
+                clearInterval(slideInterval);
+            }
             slideInterval = setInterval(() => {
                 showSlide(currentSlide + 1);
             }, 5000);
@@ -1528,9 +1505,33 @@ footer a:hover {
         }
 
         // 初始化
+        function initSlider() {
+            // 重新获取幻灯片和指示器
+            slides = document.querySelectorAll('.slide');
+            dots = document.querySelectorAll('.dot');
+            
+            if (slides.length > 0) {
+                showSlide(0);
+                startAutoSlide();
+                
+                // 添加按钮点击事件
+                const prevBtn = document.querySelector('.prev');
+                const nextBtn = document.querySelector('.next');
+                
+                if (prevBtn) prevBtn.onclick = () => changeSlide(-1);
+                if (nextBtn) nextBtn.onclick = () => changeSlide(1);
+                
+                // 添加指示器点击事件
+                dots.forEach((dot, index) => {
+                    dot.onclick = () => goToSlide(index);
+                });
+            }
+        }
+
+        // 初始化轮播
         document.addEventListener('DOMContentLoaded', function() {
-            showSlide(0);
-            startAutoSlide();
+            // 延迟初始化，确保CMS内容已加载
+            setTimeout(initSlider, 500);
 
             // 添加键盘控制
             document.addEventListener('keydown', function(event) {
@@ -1539,15 +1540,6 @@ footer a:hover {
                 } else if (event.key === 'ArrowRight') {
                     changeSlide(1);
                 }
-            });
-
-            // 添加按钮点击事件
-            document.querySelector('.prev').onclick = () => changeSlide(-1);
-            document.querySelector('.next').onclick = () => changeSlide(1);
-
-            // 添加指示器点击事件
-            dots.forEach((dot, index) => {
-                dot.onclick = () => goToSlide(index);
             });
         });
 
@@ -1577,6 +1569,35 @@ footer a:hover {
                 console.log('检测到恢复令牌，重定向到管理界面');
                 window.location.href = "/admin/#recovery_token=" + recoveryToken;
                 return;
+            }
+        });
+    </script>
+    
+    <!-- 添加调试按钮，仅用于开发环境 -->
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+        <button id="debugBtn" style="padding: 10px; background: #f00; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+            显示CMS调试信息
+        </button>
+    </div>
+    <script>
+        // 调试功能
+        document.getElementById('debugBtn').addEventListener('click', async function() {
+            try {
+                const newsRes = await fetch('content/news/index.json');
+                const newsOk = newsRes.ok;
+                let newsData = [];
+                if (newsOk) {
+                    newsData = await newsRes.json();
+                }
+                
+                alert(`CMS调试信息:
+- 内容索引文件: ${newsOk ? '已成功加载' : '加载失败'}
+- 新闻数量: ${newsData.length}
+- 页面路径: ${window.location.pathname}
+- 页面URL: ${window.location.href}
+`);
+            } catch(e) {
+                alert('调试出错: ' + e.message);
             }
         });
     </script>

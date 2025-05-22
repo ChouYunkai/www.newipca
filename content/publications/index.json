@@ -1,0 +1,41 @@
+[
+  {
+    "title": "11",
+    "authors": "11",
+    "venue": "11",
+    "year": 2024,
+    "pdf_link": "1",
+    "index": 21,
+    "order": 2,
+    "display": true,
+    "body": "21",
+    "slug": "2025-11",
+    "path": "C:\\zixel\\frontend\\5.20project\\www.newipc-zjut.com\\content\\publications\\2025-11.md"
+  },
+  {
+    "title": "saS",
+    "authors": "sS",
+    "venue": "as",
+    "year": 2024,
+    "pdf_link": "ASs",
+    "index": 2,
+    "order": 112,
+    "display": true,
+    "body": "SAs",
+    "slug": "2025-sas",
+    "path": "C:\\zixel\\frontend\\5.20project\\www.newipc-zjut.com\\content\\publications\\2025-sas.md"
+  },
+  {
+    "title": "saS完全",
+    "authors": "sS",
+    "venue": "as",
+    "year": 2025,
+    "pdf_link": "ASs",
+    "index": 2,
+    "order": 112,
+    "display": true,
+    "body": "SAs",
+    "slug": "2025-sas完全",
+    "path": "C:\\zixel\\frontend\\5.20project\\www.newipc-zjut.com\\content\\publications\\2025-sas完全.md"
+  }
+]

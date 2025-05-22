@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>感知与控制研究所</title>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -1093,8 +1093,8 @@ footer {
         <header>
             <div class="institution-header">
                 <div class="institution-header-content">
-                    <span><a href="https://www.zjut.edu.cn/" target="_blank">浙江工业大学</a></span>
-                    <span><a href="https://ie.zjut.edu.cn/" target="_blank">信息工程学</a></span>
+                    <span><a href="https://www.zjut.edu.cn/" target="_blank" rel="noopener">浙江工业大学</a></span>
+                    <span><a href="https://ie.zjut.edu.cn/" target="_blank" rel="noopener">信息工程学院</a></span>
                 </div>
             </div>
             <div class="header-content">
@@ -1132,34 +1132,7 @@ footer {
             <!-- 置顶新闻区域 -->
             <div id="topNews" class="top-news">
                 <div class="top-news-grid">
-                    <a href="https://ie.zjut.edu.cn/xxgcxy/jsp/news.jsp?neId=18306" target="_blank" class="top-news-item">
-                        <img src="images/e-conference/c3.png" alt="e路同行学术坊">
-                        <div class="top-news-caption">
-                            <h3>"e路同行"学术坊第4期</h3>
-                            <p>主讲人：刘钦源 教授（同济大学）<br>主题：线性离散时间系统中受状态相关数据包丢失影响的远程状态估计难题</p>
-                        </div>
-                    </a>
-                    <a href="https://ie.zjut.edu.cn/xxgcxy/jsp/news.jsp?neId=18233" target="_blank" class="top-news-item">
-                        <img src="images/frontier lectures/f158.png" alt="信息技术前沿讲">
-                        <div class="top-news-caption">
-                            <h3>信息技术前沿讲堂第59期预告</h3>
-                            <p>主讲人：宋爱国 教授（湖南大学）<br>主题：力反馈遥操作空间机器人技术及应用</p>
-                        </div>
-                    </a>
-                    <a href="https://mp.weixin.qq.com/s/y2bnvmZBNjQW35yx6MybHA" target="_blank" class="top-news-item">
-                        <img src="images/WenanZhang/2024/Wenan_Zhang_2024_08_29_1.jpg" alt="学术研讨">
-                        <div class="top-news-caption">
-                            <h3>"健"良师丨张文安</h3>
-                            <p>"知"以启智，"行"以树人</p>
-                        </div>
-                    </a>
-                    <div class="top-news-item large">
-                        <img src="images/tcct/tcct2024.jpg" alt="TCCT网络化控制系统专题研讨会">
-                        <div class="top-news-caption">
-                            <h3>2024TCCT网络化控制系统专题研讨会</h3>
-                            <p>2024年度TCCT网络化控制系统专题研讨会（2024TCCT Symposium on Networked Control Systems）将于2024年11月16日在浙江师范大学召开。</p>
-                        </div>
-                    </div>
+                    <!-- 新闻内容会通过JavaScript动态加载 -->
                 </div>
             </div>
 
@@ -1187,137 +1160,57 @@ footer {
     </footer>
 
     <script>
-        // 动态数据数组
-        const newsData = [
-            {
-                date: "2025年4月2日",
-                content: "我院24届博士毕业生金哲豪入选欧盟“玛丽·居里学者”人才计划",
-                link: "https://mp.weixin.qq.com/s/Aq-aP21595RzNSpU0GptxQ"
-            },
-            {
-                date: "2025年3月12日",
-                content: "3月17日东京工科大学教授佘锦华等转学术报告预告",
-                link: "https://ie.zjut.edu.cn/xxgcxy/jsp/news.jsp?neId=18300"
-            },
-            {
-                date: "2024年9月26日",
-                content: "<b>俞立</b>、<b>张丹</b>、<b>张文安</b>、<b>郭方洪</b>、<b>陈博</b>入选美国斯坦福大学和爱思唯尔数据库发布的第七版全球前2%顶尖科学家榜单终身科学影响力榜单和年度科学影响力榜单。",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=18010"
-            },
-            {
-                date: "2024年9月16日",
-                content: "我院成功举办IEEE/CAA Journal of Automatica Sinica 创刊十周年系列论坛。论坛围绕复杂系统智能感知与控制这一主题，探讨现有智能感知与控制领域的理论、方法和技术所面临的挑战，探索新思路、新方法以及新方向。",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17996"
-            },
-            {
-                date: "2024年8月27日",
-                content: "由<b>郭方洪</b>、<b>吴祥</b>指导的参赛队伍在第十九届全国大学生智能汽车竞赛中斩获大赛全国一等奖8项、二等奖1项，一等奖获奖数量位列全国高校并列第一！",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17964"
-            },
-            {
-                date: "2024年8月16日",
-                content: "<b>张文安</b>院长带领教授博士团一行7人，赴湖州市吴兴区走访浙江创特新材料技术有限公司并看望学院联培学子。",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17973"
-            },
-            {
-                date: "2024年8月15日",
-                content: "由<b>刘安东</b>、<b>仇翔</b>、<b>张丹</b>、<b>滕游</b>、<b>陈博</b>老师指的参赛队伍在2024中国机器人大会暨RoboCup机器人世界杯中国赛浙江赛区比赛获一等奖3项、二等奖1项、三等奖2项。",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17968"
-            },
-            {
-                date: "2024年6月28日",
-                content: "<b>陈博</b>教授课题组复杂系统稳定性分析方法研究取得新进展，提出了一套完全基于数据的复杂系统稳定性分析理论与方法。",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17916"
-            },
-            {
-                date: "2024年5月23",
-                content: "<b>张文安</b>院长、<b>付明磊</b>、<b>周叶剑</b>、<b>李涛</b>等师生代表学院参与了白俄罗斯国家科学院信息所专家团的接待和流。",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17841"
-            },
-            {
-                date: "2024年5月23日",
-                content: "由<b>刘安东</b>、<b>倪洪杰</b>、<b>张丹</b>、<b>仇翔</b>、<b>游</b>、<b>陈博</b>老师指导的参赛队伍在浙江省第八届大学生机器人竞赛中获一等奖3项，二等奖2项，三等奖4项。",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17969"
-            },
-            {
-                date: "2024年4月20日",
-                content: "我院成功承办浙江工业大学智能感知与控制前沿论坛。论坛由<b>俞立</b>教授、<b>张文安</b>教授担任顾问，<b>张丹</b>教授担任论坛主席，<b>刘安东</b>副教授和<b>郭方洪</b>副教授担任论坛主席。",
-                link: "https://ie.zjut.edu.cn/jsp/news.jsp?neId=17776"
-            }
-        ];
+    async function fetchNewsData() {
+        const res = await fetch('content/news/index.json');
+        const data = await res.json();
 
-        function loadPage(pageNum) {
-            const newsList = document.getElementById('newsList');
-            const topNews = document.getElementById('topNews');
-            const academicTitle = document.querySelector('.title-container:first-of-type');  // 获取第一个标题容器
-            
-            // 控制置顶新闻区域和第一个标题的显示
-            if (pageNum === 1) {
-                topNews.style.display = 'block';
-                academicTitle.style.display = 'block';  // 第一页显示标题
-            } else {
-                topNews.style.display = 'none';
-                academicTitle.style.display = 'none';   // 其他页面隐藏标题
-            }
-            
-            // 清空新闻列表
-            newsList.innerHTML = '';
-            
-            const start = (pageNum - 1) * 8;
-            const end = Math.min(start + 8, newsData.length);
-            
-            // 加载普通新闻
-            for(let i = start; i < end; i++) {
-                const news = newsData[i];
-                const newsItem = document.createElement('a');
-                newsItem.className = 'news-item';
-                newsItem.href = news.link;
-                newsItem.target = "_blank";
-                newsItem.innerHTML = `
-                    <span class="date">${news.date}</span>
-                    <p>${news.content}</p>
-                `;
-                newsList.appendChild(newsItem);
-            }
+        // 置顶学术动态（academic_featured为true）
+        const featured = data.filter(item => item.category === 'academic' && (item.academic_featured || item.featured));
+        // 普通学术动态（如需展示可扩展）
+        // const academic = data.filter(item => item.category === 'academic' && !item.academic_featured);
+        // 研究所动态
+        const institute = data.filter(item => item.category === 'institute');
 
-            // 更新页码状态
-            document.querySelectorAll('.page-number').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelectorAll('.page-number')[pageNum - 1].classList.add('active');
-        }
+        renderTopNews(featured);
+        renderInstituteNews(institute);
+    }
 
-        // 页面加载时显示第一页
-        loadPage(1);
-
-        // 幻灯片切换逻辑
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.dot');
-
-        function showSlide(n) {
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-            
-            currentSlide = (n + slides.length) % slides.length;
-            
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-        }
-
-        // 自动播放
-        setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, 5000);
-
-        // 按钮点击事件
-        document.querySelector('.prev').onclick = () => showSlide(currentSlide - 1);
-        document.querySelector('.next').onclick = () => showSlide(currentSlide + 1);
-
-        // 指示器点击事件
-        dots.forEach((dot, index) => {
-            dot.onclick = () => showSlide(index);
+    // 渲染置顶新闻
+    function renderTopNews(featured) {
+        const topNewsGrid = document.querySelector('.top-news-grid');
+        if (!topNewsGrid) return;
+        topNewsGrid.innerHTML = '';
+        featured.forEach(item => {
+            topNewsGrid.innerHTML += `
+                <a href="${item.link || '#'}" target="_blank" rel="noopener" class="top-news-item${item.large ? ' large' : ''}">
+                    <img src="${item.image || ''}" alt="${item.alt || ''}">
+                    <div class="top-news-caption">
+                        <h3>${item.title}</h3>
+                        <p>${item.body || ''}</p>
+                    </div>
+                </a>
+            `;
         });
+    }
+
+    // 渲染研究所动态
+    function renderInstituteNews(institute) {
+        const newsList = document.getElementById('newsList');
+        if (!newsList) return;
+        newsList.innerHTML = '';
+        institute
+            .sort((a, b) => new Date(b.date) - new Date(a.date))
+            .forEach(item => {
+                newsList.innerHTML += `
+                    <a href="${item.link || '#'}" target="_blank" rel="noopener" class="news-item">
+                        <span class="date">${item.date ? item.date.split('T')[0] : ''}</span>
+                        <p>${item.title}</p>
+                    </a>
+                `;
+            });
+    }
+
+    fetchNewsData();
     </script>
 
     <style>

@@ -4,6 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>感知与控制研究所 - 内容管理</title>
+    <!-- 设置Netlify站点URL -->
+    <script>
+      // 在本地环境中设置Netlify站点URL，避免要求手动输入
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        window.localStorage.setItem('netlifySiteURL', 'https://www.newipc-zjut.com');
+        console.log('已自动设置netlifySiteURL为：https://www.newipc-zjut.com');
+      }
+    </script>
     <!-- Netlify Identity Widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
@@ -71,5 +79,13 @@
     
     <!-- Decap CMS脚本 -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    
+    <!-- 本地开发环境支持 -->
+    <script>
+      // 检测是否在本地环境中运行
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('在本地环境中运行，启用本地后端');
+      }
+    </script>
   </body>
 </html> 

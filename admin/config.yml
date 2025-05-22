@@ -2,6 +2,10 @@ backend:
   name: git-gateway
   branch: main
 
+# 当在本地运行时使用代理
+local_backend:
+  url: http://localhost:8081/api/v1
+
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
@@ -25,24 +29,26 @@ collections:
 
   # 新闻动态管理
   - name: "news"
-    label: "最新动态"
+    label: "新闻管理"
     folder: "content/news"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - {label: "标题", name: "title", widget: "string"}
-      - {label: "封面图片", name: "image", widget: "image"}
+      - {label: "类别", name: "category", widget: "select", options: ["academic", "institute", "home"], default: "institute", hint: "academic=学术动态，institute=研究所动态，home=首页新闻"}
+      - {label: "封面图片", name: "image", widget: "image", required: false, hint: "首页新闻和学术动态必须上传图片，研究所动态可以不上传"}
       - {label: "图片描述", name: "alt", widget: "string", required: false}
       - {label: "来源", name: "source", widget: "string"}
       - {label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD"}
       - {label: "外部链接", name: "link", widget: "string", required: false}
       - {label: "正文内容", name: "body", widget: "markdown", required: false}
-      - {label: "首页显示", name: "featured", widget: "boolean", default: false}
+      - {label: "首页显示", name: "featured", widget: "boolean", default: false, hint: "是否在首页或学术动态区域置顶显示"}
+      - {label: "学术动态置顶", name: "academic_featured", widget: "boolean", default: false, hint: "是否在学术动态区域置顶显示"}
       - {label: "排序", name: "order", widget: "number", default: 1}
 
   # 研究成员管理
   - name: "members"
-    label: "研究成员"
+    label: "研究成员管理"
     folder: "content/members"
     create: true
     slug: "{{slug}}"
@@ -57,34 +63,82 @@ collections:
       - {label: "排序", name: "order", widget: "number", default: 99}
       - {label: "类型", name: "type", widget: "select", options: ["教师", "博士生", "硕士生", "本科生", "校友"]}
 
-  # 研究方向管理
-  - name: "research"
-    label: "研究方向"
-    folder: "content/research"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "名称", name: "title", widget: "string"}
-      - {label: "描述", name: "body", widget: "markdown"}
-      - {label: "排序", name: "order", widget: "number", default: 1}
+  # # 研究方向管理
+  # - name: "research"
+  #   label: "研究方向"
+  #   folder: "content/research"
+  #   create: true
+  #   slug: "{{slug}}"
+  #   fields:
+  #     - {label: "名称", name: "title", widget: "string"}
+  #     - {label: "描述", name: "body", widget: "markdown"}
+  #     - {label: "排序", name: "order", widget: "number", default: 1}
 
-  # 页面管理
-  - name: "pages"
-    label: "页面管理"
-    files:
-      - label: "联系我们"
-        name: "contact"
-        file: "content/pages/contact.md"
-        fields:
-          - {label: "标题", name: "title", widget: "string"}
-          - {label: "地址", name: "address", widget: "string"}
-          - {label: "电话", name: "phone", widget: "string"}
-          - {label: "电子邮件", name: "email", widget: "string"}
-          - {label: "页面内容", name: "body", widget: "markdown"}
-      
-      - label: "关于我们"
-        name: "about"
-        file: "content/pages/about.md"
-        fields:
-          - {label: "标题", name: "title", widget: "string"}
-          - {label: "页面内容", name: "body", widget: "markdown"} 
+  # 学术论文管理
+  - name: "publications"
+    label: "学术论文管理"
+    folder: "content/publications"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    fields:
+      - {label: "论文标题", name: "title", widget: "string"}
+      - {label: "作者", name: "authors", widget: "string"}
+      - {label: "发表期刊/会议", name: "venue", widget: "string"}
+      - {label: "发表年份", name: "year", widget: "number"}
+      - {label: "论文链接", name: "pdf_link", widget: "string", required: false}
+      - {label: "摘要", name: "body", widget: "markdown", required: false}
+      - {label: "索引", name: "index", widget: "number"}
+      - {label: "排序", name: "order", widget: "number", default: 999}
+      - {label: "是否显示", name: "display", widget: "boolean", default: true}
+
+  # 专利管理
+  - name: "patents"
+    label: "专利管理"
+    folder: "content/patents"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    fields:
+      - {label: "专利名称", name: "title", widget: "string"}
+      - {label: "发明人", name: "inventors", widget: "string"}
+      - {label: "申请号", name: "application", widget: "string"}
+      - {label: "申请日期", name: "app_date", widget: "datetime", format: "YYYY-MM-DD"}
+      - {label: "授权日期", name: "grant_date", widget: "datetime", format: "YYYY-MM-DD", required: false}
+      - {label: "授权公告号", name: "patent_number", widget: "string", required: false}
+      - {label: "申请人", name: "applicant", widget: "string", default: "浙江工业大学"}
+      - {label: "年份", name: "year", widget: "number"}
+      - {label: "索引", name: "index", widget: "number"}
+      - {label: "是否显示", name: "display", widget: "boolean", default: true}
+
+  # 项目管理
+  - name: "projects"
+    label: "科研项目管理"
+    folder: "content/projects"
+    create: true
+    slug: "{{year}}-{{slug}}"
+    fields:
+      - {label: "项目名称", name: "title", widget: "string"}
+      - {label: "主持人", name: "leader", widget: "string"}
+      - {label: "项目类型", name: "project_type", widget: "string"}
+      - {label: "项目编号", name: "project_number", widget: "string", required: false}
+      - {label: "执行期", name: "period", widget: "string"}
+      - {label: "年份", name: "year", widget: "number"}
+      - {label: "索引", name: "index", widget: "number"}
+      - {label: "项目描述", name: "body", widget: "markdown", required: false}
+      - {label: "是否显示", name: "display", widget: "boolean", default: true}
+
+  # # 照片集管理
+  # - name: "photo_sets"
+  #   label: "照片集管理"
+  #   folder: "content/photo_sets"
+  #   create: true
+  #   slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+  #   fields:
+  #     - {label: "标题", name: "title", widget: "string"}
+  #     - {label: "描述", name: "description", widget: "text"}
+  #     - {label: "日期", name: "date", widget: "datetime", format: "YYYY-MM-DD"}
+  #     - {label: "照片", name: "photos", widget: "list", fields: [
+  #         {label: "图片", name: "image", widget: "image"},
+  #         {label: "描述", name: "description", widget: "string"},
+  #         {label: "排序", name: "order", widget: "number", default: 1}
+  #       ]}
+  #     - {label: "排序", name: "order", widget: "number", default: 1} 

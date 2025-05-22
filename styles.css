@@ -900,3 +900,24 @@ footer {
     flex-wrap: wrap;
     box-sizing: border-box;
 } 
+
+/* 无图片的新闻项样式 */
+.news-content.full-width {
+  width: 100%;
+  padding: 20px;
+}
+
+.news-content.full-width .news-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1e3f66;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.news-content.full-width .news-meta {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+  font-size: 14px;
+} 
