@@ -8,17 +8,6 @@
   to = "/admin/index.html"
   status = 200
 
-# 添加Netlify Identity相关重定向
-[[redirects]]
-  from = "/.netlify/identity"
-  to = "/.netlify/identity"
-  status = 200
-
-[[redirects]]
-  from = "/.netlify/identity/*"
-  to = "/.netlify/identity/:splat"
-  status = 200
-  
 # 处理接受邀请的重定向
 [[redirects]]
   from = "/invite/*"
